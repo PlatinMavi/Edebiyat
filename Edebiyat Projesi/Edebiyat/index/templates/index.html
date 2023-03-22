@@ -2,128 +2,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>MDFL Edebiyat</title>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <title>Document</title>
-    <style>
-      .scrollbar-hide::-webkit-scrollbar {
-        display: none;
-      }
-    
-      /* For IE, Edge and Firefox */
-      .scrollbar-hide {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
-      }
-    </style>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link rel="stylesheet" href="{% static 'style.css' %}">
+		<title>Document</title>
+		<style>
+			.scrollbar-hide::-webkit-scrollbar {
+				display: none;
+			}
+		
+			/* For IE, Edge and Firefox */
+			.scrollbar-hide {
+					-ms-overflow-style: none;  /* IE and Edge */
+					scrollbar-width: none;  /* Firefox */
+			}
+		</style>
 </head>
 <body class="w-full">
-  <!-- <nav class="bg-gradient-to-r from-violet-100 to-rose-200 opacity-50">
-    <div class="px-7 py-3 w-max">
-      <h1 class="text-3xl italic font-serif text-color-zinc-700 mx-4">Muammer Dereli Edebiyat</h1>
-    </div>
-  </nav> -->
-   <div class="w-screen relative">
-    <img src="static/bg.jpg" alt="" class=" object-fill w-screen contrast-50">
-    <h1 class="absolute text-8xl text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-serif">Muammer Derelide <span class="text-5xl italic">Edebiyat</span></h1>
-   </div>
-   <div class="container mx-auto p-4">
-      <div class="justify-center w-3/4 mx-auto">
-        <h4 class="font-extrabold text-transparent text-8xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 pt-0 pb-5 mx-auto my-3 w-max">{{AY}}</h4>
-      </div>
-      <div class="grid grid-cols-2 gap-10 sm:grid-rows-1 w-max mx-auto">
-        <div>
-          <h2 class="mx-3 my-2 text-xl font-serif">Satır Arası Kitap Klübü:</h2>
-          <div class="w-max flex flex-col items-center bg-gradient-to-r from-rose-50 to-teal-50 border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-            <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src="media/{{AYKITAP.foto}}" alt="">
-            <div class="flex flex-col justify-between p-4 leading-normal">
-              <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{AYKITAP.isim}}, {{AYKITAP.yazar}}</h5>
-              <p class="mb-3 font-normal text-gray-700 dark:text-gray-400 text-sm">{{AYKITAP.acikama}}</p>
-            </div>
-          </div>
-        </div>
-        <div class="">
-          <h2 class="mx-3 my-2 text-xl font-serif">Ayın Şiiri: {{SIIR.isim}}</h2>
-          <div class="h-72 overflow-y-scroll scrollbar-hide w-full flex flex-col items-center bg-gradient-to-r to-rose-50 from-teal-50 border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-            <div class=" flex flex-col justify-between p-8 leading-normal mx-auto">
-                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400 ">{{SIIR.siir|linebreaks}}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <hr class="my-7">
-      <h2 class="text-3xl italic font-serif mx-auto w-max pb-4">Bu Ay Doğan Yazarlar</h2>
-      <div class="grid grid-cols-2 gap-10 w-max mx-auto">
-        <div class="">
-          {%for x in YAZAR1%}
-            <div class="w-max my-1 bg-gradient-to-bl from-gray-200 via-gray-300 to-gray-400 border border-gray-200 rounded-lg shadow p-4">
-                <img class="w-10 h-10 rounded-full inline mx-2" src="media/{{x.foto}}" alt="" />
-                <h3 class="text-white mb-2 text-2xl font-serif italic tracking-tight text-gray-900 dark:text-white inline mx-2">{{x.isim}} , <span class="text-xl">{{x.dt}}</span></h3>
-            </div>
-          {%endfor%}
-        </div>
-        <div class="">
-          {%for x in YAZAR2%}
-            <div class="w-max bg-gradient-to-br from-gray-200 via-gray-300 to-gray-400 border border-gray-200 rounded-lg shadow p-4 my-1">
-              <img class="w-10 h-10 rounded-full inline mx-2" src="media/{{x.foto}}" alt="" />
-              <h3 class="text-white mb-2 text-2xl font-serif italic inline tracking-tight text-gray-900 dark:text-white mx-2">{{x.isim}} , <span class="text-xl">{{x.dt}}</span></h3>
-            </div>
-          {%endfor%}
-        </div>
-      </div>
-      <hr class="my-7">
-      <div class="mx-auto">
-        <h3 class="mx-auto text-4xl font-serif">En Çok Okunan Dergiler:</h3>
-        <div class="grid grid-cols-5 gap-8 mx-auto my-5">
-          {% for x in DERGI%}
-            <div class="max-w-sm bg-gradient-to-r from-rose-50 to-teal-50 border border-gray-200 rounded-lg shadow">
-              <a href="{{x.url}}">
-                <img class="rounded-t-lg w-full object-fill" src="media/{{x.foto}}" alt="" />
-              </a>
-              <div class="mt-2 mx-4">
-                <a href="{{x.url}}">
-                    <h5 class="mb-2 text-2xl font-serif italic tracking-tight text-gray-900 dark:text-white">{{x.isim}}</h5>
-                </a>
-              </div>
-            </div>
-          {%endfor%}
-        </div>
-      </div>
-      <hr class="my-7">
-      <div class="mx-auto">
-        <h3 class="mx-auto text-4xl font-serif">En Çok Okunan Kitaplar:</h3>
-        <div class="grid grid-cols-5 gap-8 mx-auto my-5">
-          {% for x in KITAP%}
-            <div class="max-w-sm bg-gradient-to-r from-rose-50 to-teal-50 border border-gray-200 rounded-lg shadow">
-              <img class="rounded-t-lg w-full object-fill " src="media/{{x.foto}}" alt="" />
-              <div class="mt-2 mx-4 justify-center ">
-                <h5 class=" mb-2 text-2xl font-serif italic tracking-tight text-gray-900 dark:text-white">{{x.isim}} , <span class="text-lg"> {{x.yazar}}</span></h5>
-              </div>          
-            </div>
-          {%endfor%}
-        </div>
-      </div>
-    </div>
+	<!-- <nav class="bg-gradient-to-r from-violet-100 to-rose-200 opacity-50">
+		<div class="px-7 py-3 w-max">
+			<h1 class="text-3xl italic font-serif text-color-zinc-700 mx-4">Muammer Dereli Edebiyat</h1>
+		</div>
+	</nav> -->
+	 <div class="w-screen relative">
+		<img src="static/bg.jpg" alt="" class=" object-fill w-screen contrast-50">
+		<h1 class="absolute text-8xl text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-serif">Muammer Derelide <span class="text-5xl italic">Edebiyat</span></h1>
+	 </div>
+	 <div class="container mx-auto p-4">
+			<div class="justify-center w-3/4 mx-auto">
+				<h4 class="font-extrabold text-transparent text-8xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 pt-0 pb-5 mx-auto my-3 w-max">{{AY}}</h4>
+			</div>
+			<div class="grid grid-cols-2 gap-10 sm:grid-rows-1 w-max mx-auto">
+				<div>
+					<h2 class="mx-3 my-2 text-xl font-serif">Satır Arası Kitap Klübü:</h2>
+					<div class="w-max flex flex-col items-center bg-gradient-to-r from-rose-50 to-teal-50 border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+						<img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src="media/{{AYKITAP.foto}}" alt="">
+						<div class="flex flex-col justify-between p-4 leading-normal">
+							<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{AYKITAP.isim}}, {{AYKITAP.yazar}}</h5>
+							<p class="mb-3 font-normal text-gray-700 dark:text-gray-400 text-sm">{{AYKITAP.acikama}}</p>
+						</div>
+					</div>
+				</div>
+				<div class="">
+					<h2 class="mx-3 my-2 text-xl font-serif">Ayın Şiiri: {{SIIR.isim}}</h2>
+					<div class="h-72 overflow-y-scroll scrollbar-hide w-full flex flex-col items-center bg-gradient-to-r to-rose-50 from-teal-50 border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+						<div class=" flex flex-col justify-between p-8 leading-normal mx-auto">
+								<p class="mb-3 font-normal text-gray-700 dark:text-gray-400 ">{{SIIR.siir|linebreaks}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<hr class="my-7">
+			<h2 class="text-3xl italic font-serif mx-auto w-max pb-4">Bu Ay Doğan Yazarlar</h2>
+			<div class="grid grid-cols-2 gap-10 w-max mx-auto">
+				<div class="">
+					{%for x in YAZAR1%}
+						<div class="w-max my-1 bg-gradient-to-bl from-gray-300 via-gray-400 to-gray-600 border border-gray-200 rounded-lg shadow p-4 hover:bg-gradient-to-r hover:from-pink-500 hover:via-red-500 hover:to-yellow-500">
+								<img class="w-10 h-10 rounded-full inline mx-2" src="media/{{x.foto}}" alt="" />
+								<h3 class="text-white mb-2 text-2xl font-serif italic tracking-tight text-gray-900 dark:text-white inline mx-2">{{x.isim}} , <span class="text-xl">{{x.dt}}</span></h3>
+						</div>
+					{%endfor%}
+				</div>
+				<div class="">
+					{%for x in YAZAR2%}
+						<div class="w-max bg-gradient-to-br from-gray-300 via-gray-400 to-gray-600 border border-gray-200 rounded-lg shadow p-4 my-1 hover:bg-gradient-to-r hover:from-pink-500 hover:via-red-500 hover:to-yellow-500">
+							<img class="w-10 h-10 rounded-full inline mx-2" src="media/{{x.foto}}" alt="" />
+							<h3 class="text-white mb-2 text-2xl font-serif italic inline tracking-tight text-gray-900 dark:text-white mx-2">{{x.isim}} , <span class="text-xl">{{x.dt}}</span></h3>
+						</div>
+					{%endfor%}
+				</div>
+			</div>
+			<hr class="my-7">
+			<div class="mx-auto">
+				<h3 class="mx-auto text-4xl font-serif">En Çok Okunan Dergiler:</h3>
+				<div class="grid grid-cols-5 gap-8 mx-auto my-5">
+					{% for x in DERGI%}
+						<div class="max-w-sm bg-gradient-to-r from-rose-50 to-teal-50 border border-gray-200 rounded-lg shadow hover:bg-gradient-to-r hover:from-purple-400 hover:to-yellow-400">
+							<a href="{{x.url}}">
+								<img class="rounded-t-lg w-full object-fill" src="media/{{x.foto}}" alt="" />
+							</a>
+							<div class="mt-2 mx-4">
+								<a href="{{x.url}}">
+										<h5 class="mb-2 text-2xl font-serif italic tracking-tight text-gray-900 dark:text-white">{{x.isim}}</h5>
+								</a>
+							</div>
+						</div>
+					{%endfor%}
+				</div>
+			</div>
+			<hr class="my-7">
+			<div class="mx-auto" id = "top-book-read">
+				<h3 class="mx-auto text-4xl font-serif">En Çok Okunan Kitaplar:</h3>
+				<div class="grid grid-cols-5 gap-8 mx-auto my-5">
+					{% for x in KITAP%}
+						<a href = "books/{{x.isim}}">
+							<div class="max-w-sm bg-gradient-to-r from-rose-50 to-teal-50 border border-gray-200 rounded-lg shadow hover:bg-gradient-to-r hover:from-purple-400 hover:to-yellow-400"> 
+								<!--  hover:from-cyan-400 hover:to-cyan-600  -->
+								<img class="rounded-t-lg w-full object-fill " src="media/{{x.foto}}" alt="" />
+								<div class="mt-2 mx-4 justify-center ">
+									<h5 class=" mb-2 text-2xl font-serif italic tracking-tight text-gray-900 dark:text-white">{{x.isim}} , <span class="text-lg"> {{x.yazar}}</span></h5>
+								</div>          
+							</div>
+						</a>
+					{%endfor%}
+				</div>
+			</div>
+		</div>
 
-    <footer>
-      
-      <div class="w-screen bg-gradient-to-r from-gray-700 via-gray-900 to-black h-72 grid grid-cols-3 mx-auto">
-        <div class="">
-          <h1 class="text-white mx-auto w-max">Filler - Footer</h1>
-        </div>
-        <div class="">
-          <h1 class="text-white mx-auto w-max text-3xl">Filler - Footer</h1>
-          <h1 class="text-white mx-auto w-max">Filler - Footer</h1>
-          <h1 class="text-white mx-auto w-max">Filler - Footer</h1>
-        </div>
-        <div class="">
-          <h1 class="text-white mx-auto w-max">Filler - Footer</h1>
-        </div>
-      </div>
-    </footer>
+		<footer>
+			
+			<div class="w-screen bg-gradient-to-r from-gray-700 via-gray-900 to-black h-72 grid grid-cols-3 mx-auto">
+				<div class="">
+					<h1 class="text-white mx-auto w-max">Filler - Footer</h1>
+				</div>
+				<div class="">
+					<h1 class="text-white mx-auto w-max text-3xl">Filler - Footer</h1>
+					<h1 class="text-white mx-auto w-max">Filler - Footer</h1>
+					<h1 class="text-white mx-auto w-max">Filler - Footer</h1>
+				</div>
+				<div class="">
+					<h1 class="text-white mx-auto w-max">Filler - Footer</h1>
+				</div>
+			</div>
+		</footer>
 </body>
 </html>

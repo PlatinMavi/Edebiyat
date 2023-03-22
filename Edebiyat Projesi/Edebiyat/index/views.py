@@ -12,11 +12,11 @@ def index(request):
     siir = Siir.objects.all()[0]
     aykitap = Kitap.objects.all()[0]
 
-    zam = datetime.datetime.now()
-    zam = zam.strftime("%m")
+    zaman = datetime.datetime.now()
+    zaman = zaman.strftime("%m")
     aylar = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"]
-    buay = aylar[int(zam)-1]
-    yazar = Yazar.objects.all().filter(dt__month=zam)
+    buay = aylar[int(zaman)-1]
+    yazar = Yazar.objects.all().filter(dt__month=zaman)
     yazar1 = yazar[:5]
     yazar2 = yazar[5:10]
 
