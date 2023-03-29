@@ -8,14 +8,18 @@ from index.models import Dergi,Kitap,Siir,Yazar
 def render_book(request,id : str or None):
     template = loader.get_template("book_details.html")
 
-    kitap_query = Kitap.objects.filter(isim=id)
+    kitap_query = Kitap.objects.filter(id=id)
     if (len(kitap_query) == 0):
-        return shortcuts.redirect("/books/Lorem%20Ipsum")
+        return page_not_found()
     data = {"BOOK" : kitap_query[0]}
     return HttpResponse(template.render(data,request))
 
+def page_not_found():
+    return HttpResponse("Error: 404",status=404)
+
+
 def invalid_book(request):
-    return shortcuts.redirect("/books/Lorem%20Ipsum")
+    return page_not_found()
     # template = loader.get_template("book_details.html")
     # data = {"BOOK" : {
     #     "isim":"lorem ipsum",

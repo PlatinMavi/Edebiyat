@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 class Dergi(models.Model):
     isim = models.CharField(max_length=255)
+
     yayinci = models.CharField(max_length=255)
     foto = models.ImageField(upload_to="foto", default = "foto/noimage.png")
     url = models.URLField()
