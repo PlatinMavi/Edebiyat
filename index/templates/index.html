@@ -82,11 +82,11 @@
 				<div class="grid grid-cols-5 gap-8 mx-auto my-5">
 					{% for x in DERGI%}
 						<div class="max-w-sm bg-gradient-to-r from-rose-50 to-teal-50 border border-gray-200 rounded-lg shadow hover:bg-gradient-to-r hover:from-purple-400 hover:to-yellow-400">
-							<a href="{{x.url}}">
+							<a href="{{x.url}}" target=_blank>
 								<img class="rounded-t-lg w-full object-fill" src="media/{{x.foto}}" alt="" />
 							</a>
 							<div class="mt-2 mx-4">
-								<a href="{{x.url}}">
+								<a href="{{x.url}}" target=_blank>
 										<h5 class="mb-2 text-2xl font-serif italic tracking-tight text-gray-900 dark:text-white">{{x.isim}}</h5>
 								</a>
 							</div>
@@ -99,7 +99,7 @@
 				<h3 class="mx-auto text-4xl font-serif">En Çok Okunan Kitaplar:</h3>
 				<div class="grid grid-cols-5 gap-8 mx-auto my-5">
 					{% for x in KITAP%}
-						<a href = "books/{{x.id}}">
+						<a href = "books/{{x.id}}" target=_blank>
 							<div class="max-w-sm bg-gradient-to-r from-rose-50 to-teal-50 border border-gray-200 rounded-lg shadow hover:bg-gradient-to-r hover:from-purple-400 hover:to-yellow-400"> 
 								<!--  hover:from-cyan-400 hover:to-cyan-600  -->
 								<img class="rounded-t-lg w-full object-fill " src="media/{{x.foto}}" alt="" />
