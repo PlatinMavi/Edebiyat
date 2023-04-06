@@ -1,37 +1,48 @@
 from django.urls import path, include
 from django.http import HttpResponse, JsonResponse, HttpRequest
-from index.models import Kitap, Comment, Dergi, Siir, Yazar,filter_comment
+from index.models import Kitap, Comment, Dergi, Siir, Yazar, filter_comment
 import time
-def endpoint_comment_post(request:HttpRequest, id : int):
-    if request.method.lower() != "post":
-        return HttpResponse("Method Not Allowed!")
+
+
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def endpoint_comment_post(request: HttpRequest, id: int):
+    # if request.method.lower() != "post":
+        # return error_response("errors.request.method_not_allowed",f"{request.method.upper()} requests to this endpoint is not allowed")
     if id == None:
         return HttpResponse("")
-    is_hide_name = request.headers.get("is_hide_name").lower()
-    is_spoilers = request.headers.get("is_spoilers").lower()
+    is_hide_name = request.headers.get("is_hide_name")
+    is_spoilers = request.headers.get("is_spoilers")
     author_name = request.headers.get("author_name")
-    message = request.headers.get("author_name")
+    comment = request.headers.get("comment")
     headers = request.headers.__dict__
-    if not (is_hide_name in ("true","false")):
+    is_hide_name = is_hide_name or False
+    is_spoilers = is_spoilers or False
+    if not (str(is_hide_name).lower() in ("true", "false")):
         is_hide_name = False
     is_hide_name = bool(is_hide_name)
-    
-    if not (is_spoilers in ("true","false")):
+
+    if not (str(is_spoilers).lower() in ("true", "false")):
         is_spoilers = False
     is_spoilers = bool(is_hide_name)
-    
-    if not message or len(message) < 20 or len(message) > 1000:
-        return error_response(f"message length should be between 20 and 1000")
-    if not author_name or len(author_name) < 30 or len(author_name) > 5:
-        return error_response(f"author name should be between 5 and 30")
 
-    return JsonResponse(True,safe=False)
+    if not comment or len(comment) < 20 or len(comment) > 1000:
+        return error_response("errors.comment.post.length",f"comment length should be between 20 and 1000, got {comment and len(comment) or 'null'}")
+    if not author_name or len(author_name) > 30 or len(author_name) < 5:
+        return error_response("errors.comment.post.author.name",f"author name should be between 5 and 30, got {author_name and len(author_name) or 'null'}")
 
-def error_response(error_desc):
+    return JsonResponse(True, safe=False)
+
+
+def error_response(error_name: str, error_details: str = ""):
     return JsonResponse(
-        {"success":False,"error":error_desc or "","time":time.time()}
+        {"success": False, "error": error_name or "",
+            "error_details": error_details, "time": time.time()}
     )
 
+
+@csrf_exempt
 def endpoint_comment_list(request, id):
     return JsonResponse(
         [{
@@ -47,6 +58,7 @@ def endpoint_comment_list(request, id):
         ], safe=False)
 
 
+@csrf_exempt    
 def endpoint_list(request):
     return JsonResponse([{
         "book": {
