@@ -6,5 +6,5 @@ def get_api_versions(request):
 
 urlpatterns = [
     path("",get_api_versions),
-    path("v1/",include("api.v1")),
+    path("v1/",include("api.v1.endpoints")),
 ]
