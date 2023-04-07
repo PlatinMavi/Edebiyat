@@ -86,7 +86,9 @@ class Comment(models.Model):
 			"vote_count":self.GET_VOTE_COUNT(),
 			})
 	def __str__(self) -> str:
-		return f"Yorum ({self.id})"
+		name = Kitap.objects.get(id=self.parent_object)
+		name = name and name.isim or "Bilinmeyen Kitap"
+		return f"{self.id} : {name} : {self.author_name}"
 
 
 class Vote(models.Model):
