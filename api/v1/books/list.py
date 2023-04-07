@@ -1,6 +1,6 @@
 from django.urls import path, include
 from django.http import HttpResponse, JsonResponse, HttpRequest
-from index.models import Kitap, Comment, Dergi, Siir, Yazar, Vote, filter_comment
+from index.models import LiteratureObject, Comment, LiteratureObject, LiteratureObject, Creator, Vote, filter_comment
 import time
 from util import post_requests_only, error_response, get_requests_only
 
@@ -30,4 +30,4 @@ def export(request: HttpRequest):
 		"description": kitap.acikama,
 		"author": {"name": kitap.yazar},
 
-	} for kitap in Kitap.objects.order_by("id")[cursor*max_results:(cursor+1)*max_results]], safe=False)
+	} for kitap in LiteratureObject.objects.order_by("id")[cursor*max_results:(cursor+1)*max_results]], safe=False)

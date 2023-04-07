@@ -1,9 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Siir, Kitap, Dergi, Yazar,Comment, Vote
-admin.site.register(Siir)
-admin.site.register(Kitap)
-admin.site.register(Dergi)
-admin.site.register(Yazar)
+from .models import LiteratureObject, Creator,Comment, Vote
+admin.site.register(LiteratureObject)
+admin.site.register(Creator)
 admin.site.register(Comment)

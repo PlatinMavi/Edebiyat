@@ -4,11 +4,11 @@ from django.shortcuts import render
 from django.template import loader
 
 # Create your views here.
-from index.models import Dergi,Kitap,Siir,Yazar
+from index.models import LiteratureObject,LiteratureObject,LiteratureObject,Creator
 def render_book(request,id : str or None):
     template = loader.get_template("book_details.html")
 
-    kitap_query = Kitap.objects.filter(id=id)
+    kitap_query = LiteratureObject.objects.filter(id=id)
     if (len(kitap_query) == 0):
         return page_not_found()
     data = {"BOOK" : kitap_query[0]}

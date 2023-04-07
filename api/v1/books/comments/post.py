@@ -1,6 +1,6 @@
 from django.urls import path, include
 from django.http import HttpResponse, JsonResponse, HttpRequest
-from index.models import Kitap, Comment, Dergi, Siir, Yazar, Vote, filter_comment
+from index.models import LiteratureObject, Comment, LiteratureObject, LiteratureObject, Creator, Vote, filter_comment
 import time
 from util import post_requests_only, error_response, get_requests_only
 
@@ -34,7 +34,7 @@ def export(request: HttpRequest, book_id: int):
 	# got all parameters
 	# now we can create comment
 	# first we need to get parent object
-	parent_object = Kitap.objects.get(id=book_id)
+	parent_object = LiteratureObject.objects.get(id=book_id)
 	if not parent_object:
 		return error_response("errors.comment.post.parent_object", f"Book object not found with id {book_id}")
 	# now we can create comment

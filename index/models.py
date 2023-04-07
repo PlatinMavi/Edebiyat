@@ -2,42 +2,38 @@ from django.db import models
 # Create your models here.
 
 
-class Dergi(models.Model):
-	isim = models.CharField(max_length=255)
+class Creator(models.Model):
+	
+	ObjectIndexes = ["writer","publisher"]
+	ObjectTypes = [("writer","Yazar"),("publisher","Yayımcı")]
 
-	yayinci = models.CharField(max_length=255)
-	foto = models.ImageField(upload_to="foto", default="foto/noimage.png")
-	url = models.URLField()
+	name = models.CharField(max_length=255)
+	created_at = models.DateField()
+	image = models.ImageField(upload_to="foto", default="foto/noimage.png")
+	type = models.CharField(choices=ObjectTypes, default = "writer", max_length=255)
+	def __str__(self):
+		return f"{self.id} : ({self.ObjectTypes[self.ObjectIndexes.index(self.type)][1]}) {self.name}"
 
-
-class Kitap(models.Model):
-	isim = models.CharField(max_length=255)
-	yazar = models.CharField(max_length=255)
-	foto = models.ImageField(upload_to="foto", default="foto/noimage.png")
-	acikama = models.CharField(max_length=512, null=True)
-
-
-class Siir(models.Model):
-	isim = models.CharField(max_length=255)
-	yazar = models.CharField(max_length=255)
-	siir = models.TextField(max_length=512)
-
-
-class Yazar(models.Model):
-	isim = models.CharField(max_length=255)
-	dt = models.DateField()
-	foto = models.ImageField(upload_to="foto", default="foto/noimage.png")
-
+class LiteratureObject(models.Model):
+	ObjectIndexes = ["book","magazine","poem"]
+	ObjectTypes = [("book","Kitap"),("magazine","Dergi"),("poem","Şiir")]
+	name = models.CharField(verbose_name= "İsim", max_length=255)
+	creator = models.ForeignKey(Creator,verbose_name="Yazar / Yayıncı", default=None,on_delete=models.DO_NOTHING)
+	image = models.ImageField(verbose_name="Fotoğraf", upload_to="foto", default="foto/noimage.png")
+	url = models.URLField(verbose_name="Esere ait link")
+	content = models.TextField(verbose_name="İçerik" , max_length=1000)
+	type = models.TextField(verbose_name="Tür", choices = ObjectTypes)
+	def __str__(self):
+		return f"{self.id} : ({self.creator.ObjectTypes[self.creator.ObjectIndexes.index(self.creator.type)][1]}) {self.creator.name} : ({self.ObjectTypes[self.ObjectIndexes.index(self.type)][1]}) {self.name}"
 
 class Comment(models.Model):
-	
 	parent_object = models.IntegerField(
 		editable=False, verbose_name="Yorum Yapılan Eser Numarası", default=0)
 	author_name = models.CharField(max_length=30, verbose_name="Kullanıcı Adı")
 	message = models.TextField(max_length=1000, verbose_name="Yorum İçeriği")
 	created_at = models.DateField(auto_now=True, editable=False)
 	approved_by = models.CharField(
-		max_length=30, default="Bilinmiyor", editable=True, verbose_name="Onaylayan Yetkili")
+		max_length=30, default="bilinmeyen_yetkili", editable=True, verbose_name="Onaylayan Yetkili")
 	hide_name = models.BooleanField(
 		default=False, verbose_name="Yazar İsmini Gizle", editable=True)
 	spoilers = models.BooleanField(
@@ -86,8 +82,8 @@ class Comment(models.Model):
 			"vote_count":self.GET_VOTE_COUNT(),
 			})
 	def __str__(self) -> str:
-		name = Kitap.objects.get(id=self.parent_object)
-		name = name and name.isim or "Bilinmeyen Kitap"
+		name = LiteratureObject.objects.filter(id=self.parent_object).first()
+		name = name and name.isim or "hatalı_eser"
 		return f"{self.id} : {name} : {self.author_name}"
 
 
