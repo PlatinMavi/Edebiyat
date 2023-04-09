@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 @get_requests_only
-def export(request: HttpRequest):
+def export(request, object_id):
 	ACCEPT_MAX_RESULTS = [0, 1, 5, 10, 20, 50]
 	try:
 		cursor = request.GET.get("cursor") and int(request.GET.get("cursor")) or 0
@@ -24,10 +24,4 @@ def export(request: HttpRequest):
 		# return HttpResponse(e)
 		return error_response("errors.comment.list.invalid_max-results", f"Max results must be one of {ACCEPT_MAX_RESULTS}, got {request.GET.get('max-results')}")
 	return JsonResponse(
-		[{
-		"name": kitap.isim,
-		"image": {"url": kitap.foto.url, "width": kitap.foto.width, "height": kitap.foto.height},
-		"description": kitap.acikama,
-		"author": {"name": kitap.yazar},
-
-	} for kitap in LiteratureObject.objects.order_by("id")[cursor*max_results:(cursor+1)*max_results]], safe=False)
+		[comment.filtered_json() for comment in Comment.objects.filter(parent_object=object_id).order_by("id")[cursor*max_results:(cursor+1)*max_results]], safe=False)

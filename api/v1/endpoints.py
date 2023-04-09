@@ -1,4 +1,4 @@
 from django.urls import path, include
 urlpatterns = [
-	path("books/", include("api.v1.books.__init__"))
+	path("literature_objects/", include("api.v1.literature_objects.__init__"))
 ]

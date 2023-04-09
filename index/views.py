@@ -7,27 +7,25 @@ import datetime
 # Create your views here.
 def index(request):
 
-    dergi = LiteratureObject.objects.all()[:5]
-    kitap = LiteratureObject.objects.all()[:5]
-    siir = LiteratureObject.objects.all()[0]
-    aykitap = LiteratureObject.objects.all()[0]
-
+    dergi = LiteratureObject.objects.filter(type="magazine").all().first()
+    kitap = LiteratureObject.objects.filter(type="book").all().first()
+    siir = LiteratureObject.objects.filter(type="poem").all().first()
+    aykitap = LiteratureObject.objects.all().order_by("interest_rate").last()
     zaman = datetime.datetime.now()
-    zaman = zaman.strftime("%m")
+    zaman_str = zaman.strftime("%Y-%m-%d")
     aylar = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"]
-    buay = aylar[int(zaman)-1]
-    yazar = Creator.objects.all().filter(dt__month=zaman)
+    buay = aylar[int(zaman.month)-1]
+    yazar = Creator.objects.all().filter(created_at=zaman)
     yazar1 = yazar[:5]
     yazar2 = yazar[5:10]
-
     template = loader.get_template("index.html")
     context={
-        "DERGI":dergi,
-        "KITAP":kitap,
+        "DERGI":dergi and dergi.filtered_json(),
+        "KITAP":kitap and kitap.filtered_json(),
         "YAZAR1":yazar1,
         "YAZAR2":yazar2,
-        "SIIR":siir,
+        "SIIR":siir and siir.filtered_json(),
         "AY":buay,
-        "AYKITAP":aykitap,
+        "AYKITAP": aykitap and siir.filtered_json(),
     }
     return HttpResponse(template.render(context, request))

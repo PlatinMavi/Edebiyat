@@ -40,18 +40,29 @@
 				<div>
 					<h2 class="mx-3 my-2 text-xl font-serif">Satır Arası Kitap Klübü:</h2>
 					<div class="w-max flex flex-col items-center bg-gradient-to-r from-rose-50 to-teal-50 border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-						<img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src="media/{{AYKITAP.foto}}" alt="">
+						<img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src="media/{{AYKITAP.image.url}}" alt="">
 						<div class="flex flex-col justify-between p-4 leading-normal">
-							<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{AYKITAP.isim}}, {{AYKITAP.yazar}}</h5>
-							<p class="mb-3 font-normal text-gray-700 dark:text-gray-400 text-sm">{{AYKITAP.acikama}}</p>
+							<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-black">{{AYKITAP.name}}, {{AYKITAP.creator.name}}</h5>
+							<p class="mb-3 font-normal text-gray-700 dark:text-gray-400 text-sm">{{AYKITAP.content}}</p>
 						</div>
 					</div>
 				</div>
 				<div class="">
-					<h2 class="mx-3 my-2 text-xl font-serif">Ayın Şiiri: {{SIIR.isim}}</h2>
+					
+					<h4 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-black">({{SIIR.interest_rate}} UPVOTES) Ayın Şiiri: {{SIIR.creator.name}}, "{{SIIR.name}}"</h4>
 					<div class="h-72 overflow-y-scroll scrollbar-hide w-full flex flex-col items-center bg-gradient-to-r to-rose-50 from-teal-50 border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
 						<div class=" flex flex-col justify-between p-8 leading-normal mx-auto">
-								<p class="mb-3 font-normal text-gray-700 dark:text-gray-400 ">{{SIIR.siir|linebreaks}}</p>
+							<p class="mb-3 font-normal text-gray-700 dark:text-gray-400 ">
+								Nobody's gonna know
+								<br>
+								They're gonna know
+								<br>
+								How would they know?
+								<br>
+								.
+								<br>
+								{{SIIR.content|linebreaks}}
+							</p>
 						</div>
 					</div>
 				</div>
@@ -62,8 +73,8 @@
 				<div class="">
 					{%for x in YAZAR1%}
 						<div class="w-max my-1 bg-gradient-to-bl from-gray-300 via-gray-400 to-gray-600 border border-gray-200 rounded-lg shadow p-4 hover:bg-gradient-to-r hover:from-pink-500 hover:via-red-500 hover:to-yellow-500">
-								<img class="w-10 h-10 rounded-full inline mx-2" src="media/{{x.foto}}" alt="" />
-								<h3 class="text-white mb-2 text-2xl font-serif italic tracking-tight text-gray-900 dark:text-white inline mx-2">{{x.isim}} , <span class="text-xl">{{x.dt}}</span></h3>
+								<img class="w-10 h-10 rounded-full inline mx-2" src="media/{{x.image}}" alt="" />
+								<h3 class="text-white mb-2 text-2xl font-serif italic tracking-tight text-gray-900 dark:text-white inline mx-2">{{x.name}} , <span class="text-xl">{{x.created_at}}</span></h3>
 						</div>
 					{%endfor%}
 				</div>
@@ -71,7 +82,7 @@
 					{%for x in YAZAR2%}
 						<div class="w-max bg-gradient-to-br from-gray-300 via-gray-400 to-gray-600 border border-gray-200 rounded-lg shadow p-4 my-1 hover:bg-gradient-to-r hover:from-pink-500 hover:via-red-500 hover:to-yellow-500">
 							<img class="w-10 h-10 rounded-full inline mx-2" src="media/{{x.foto}}" alt="" />
-							<h3 class="text-white mb-2 text-2xl font-serif italic inline tracking-tight text-gray-900 dark:text-white mx-2">{{x.isim}} , <span class="text-xl">{{x.dt}}</span></h3>
+							<h3 class="text-white mb-2 text-2xl font-serif italic inline tracking-tight text-gray-900 dark:text-white mx-2">{{x.name}} , <span class="text-xl">{{x.created_at}}</span></h3>
 						</div>
 					{%endfor%}
 				</div>
