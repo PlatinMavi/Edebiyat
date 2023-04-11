@@ -21,3 +21,4 @@ def error_response(error_name: str, error_details: str = ""):
 	return JsonResponse(
 		{"success": False, "error": error_name or "",
 		 "error_details": error_details, "time": time.time()},status=HTTPStatus.BAD_REQUEST)
+#Cascadia Code
