@@ -10,7 +10,6 @@
 
 	<script src="https://cdn.tailwindcss.com"></script>
 	<link rel="stylesheet" href="{% static 'style.css' %}">
-	<title>Document</title>
 	<style>
 		.scrollbar-hide::-webkit-scrollbar {
 			display: none;
@@ -41,7 +40,7 @@
 		<div class="justify-center w-3/4 mx-auto">
 			<h4
 				class="font-extrabold text-transparent text-8xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 pt-0 pb-5 mx-auto my-3 w-max">
-				{{AY}}</h4>
+				{{THIS_MONTH}}</h4>
 		</div>
 		<div class="grid grid-cols-2 gap-10 sm:grid-rows-1 w-max mx-auto">
 			<div>
@@ -49,18 +48,18 @@
 				<div
 					class="w-max flex flex-col items-center bg-gradient-to-r from-rose-50 to-teal-50 border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
 					<img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
-						src="media/{{AYKITAP.image.url}}" alt="">
+						src="{{BOOK_OF_THE_MONTH.image.url}}" alt="">
 					<div class="flex flex-col justify-between p-4 leading-normal">
 						<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-black">
-							{{AYKITAP.name}}, {{AYKITAP.creator.name}}</h5>
-						<p class="mb-3 font-normal text-gray-700 dark:text-gray-400 text-sm">{{AYKITAP.content}}</p>
+							{{BOOK_OF_THE_MONTH.name}}, {{BOOK_OF_THE_MONTH.creator.name}}</h5>
+						<p class="mb-3 font-normal text-gray-700 dark:text-gray-400 text-sm">{{BOOK_OF_THE_MONTH.content}}</p>
 					</div>
 				</div>
 			</div>
 			<div class="">
 
-				<h4 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-black">({{SIIR.interest_rate}}
-					UPVOTES) Ayın Şiiri: {{SIIR.creator.name}}, "{{SIIR.name}}"</h4>
+				<h4 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-black">({{TOP_POEM.interest_rate}}
+					UPVOTES) Ayın Şiiri: {{TOP_POEM.creator.name}}, "{{TOP_POEM.name}}"</h4>
 				<div
 					class="h-72 overflow-y-scroll scrollbar-hide w-full flex flex-col items-center bg-gradient-to-r to-rose-50 from-teal-50 border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
 					<div class=" flex flex-col justify-between p-8 leading-normal mx-auto">
@@ -73,40 +72,31 @@
 							<br>
 							.
 							<br>
-							{{SIIR.content|linebreaks}}
+							{{TOP_POEM.content|linebreaks}}
 						</p>
 					</div>
 				</div>
 			</div>
 		</div>
 		<hr class="my-7">
+		{%if CREATOR_BIRTHDAY%}
 		<h2 class="text-3xl italic font-serif mx-auto w-max pb-4">Bu Ay Doğan Yazarlar</h2>
 		<div class="grid grid-cols-2 gap-10 w-max mx-auto">
-			<div class="">
-				{%for x in YAZAR1%}
-				<div
-					class="w-max my-1 bg-gradient-to-bl from-gray-300 via-gray-400 to-gray-600 border border-gray-200 rounded-lg shadow p-4 hover:bg-gradient-to-r hover:from-pink-500 hover:via-red-500 hover:to-yellow-500">
-					<img class="w-10 h-10 rounded-full inline mx-2" src="media/{{x.image}}" alt="" />
-					<h3
-						class="text-white mb-2 text-2xl font-serif italic tracking-tight text-gray-900 dark:text-white inline mx-2">
-						{{x.name}} , <span class="text-xl">{{x.created_at}}</span></h3>
-				</div>
-				{%endfor%}
-			</div>
 
 			<div class="">
-				{%for x in YAZAR2%}
+				{%for creator in CREATOR_BIRTHDAY%}
 				<div
 					class="w-max bg-gradient-to-br from-gray-300 via-gray-400 to-gray-600 border border-gray-200 rounded-lg shadow p-4 my-1 hover:bg-gradient-to-r hover:from-pink-500 hover:via-red-500 hover:to-yellow-500">
-					<img class="w-10 h-10 rounded-full inline mx-2" src="media/{{x.foto}}" alt="" />
+					<img class="w-10 h-10 rounded-full inline mx-2" src="media/{{creator.image}}" alt="" />
 					<h3
 						class="text-white mb-2 text-2xl font-serif italic inline tracking-tight text-gray-900 dark:text-white mx-2">
-						{{x.name}} , <span class="text-xl">{{x.created_at}}</span></h3>
+						{{creator.name}} , <span class="text-xl">{{creator.created_at}}</span></h3>
 				</div>
 				{%endfor%}
 			</div>
 		</div>
 		<hr class="my-7">
+		{%endif%}
 		<div class="mx-auto">
 			<h3 class="mx-auto text-4xl font-serif">En Çok Okunan Dergiler:</h3>
 			<div class="grid grid-cols-5 gap-8 mx-auto my-5">
@@ -114,12 +104,12 @@
 				<div
 					class="max-w-sm bg-gradient-to-r from-rose-50 to-teal-50 border border-gray-200 rounded-lg shadow hover:bg-gradient-to-r hover:from-purple-400 hover:to-yellow-400">
 					<a href="{{x.url}}" target=_blank>
-						<img class="rounded-t-lg w-full object-fill" src="media/{{x.foto}}" alt="" />
+						<img class="rounded-t-lg w-full object-fill" src="{{x.foto}}" alt="" />
 					</a>
 					<div class="mt-2 mx-4">
 						<a href="{{x.url}}" target=_blank>
 							<h5 class="mb-2 text-2xl font-serif italic tracking-tight text-gray-900 dark:text-white">
-								{{x.isim}}</h5>
+								{{x.name}}</h5>
 						</a>
 					</div>
 				</div>
@@ -135,7 +125,7 @@
 					<div
 						class="max-w-sm bg-gradient-to-r from-rose-50 to-teal-50 border border-gray-200 rounded-lg shadow hover:bg-gradient-to-r hover:from-purple-400 hover:to-yellow-400">
 						<!--  hover:from-cyan-400 hover:to-cyan-600  -->
-						<img class="rounded-t-lg w-full object-fill " src="media/{{x.foto}}" alt="" />
+						<img class="rounded-t-lg w-full object-fill " src="{{x.foto}}" alt="" />
 						<div class="mt-2 mx-4 justify-center ">
 							<h5 class=" mb-2 text-2xl font-serif italic tracking-tight text-gray-900 dark:text-white">
 								{{x.isim}} , <span class="text-lg"> {{x.yazar}}</span></h5>
