@@ -42,4 +42,4 @@ def export(request: HttpRequest, object_id: int):
 					  spoilers=is_spoilers, author_ip=request.META.get("REMOTE_ADDR"), author_headers=headers,
 					  author_id=request.META.get("REMOTE_ADDR")[:2])
 	comment.save()
-	return JsonResponse(comment.filtered_json(), safe=False)
+	return JsonResponse(comment.filtered_content(), safe=False)

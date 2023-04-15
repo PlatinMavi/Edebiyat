@@ -24,4 +24,4 @@ def export(request, object_id):
 		# return HttpResponse(e)
 		return error_response("errors.comment.list.invalid_max-results", f"Max results must be one of {ACCEPT_MAX_RESULTS}, got {request.GET.get('max-results')}")
 	return JsonResponse(
-		[comment.filtered_json() for comment in Comment.objects.filter(parent_object=object_id).order_by("id")[cursor*max_results:(cursor+1)*max_results]], safe=False)
+		[comment.filtered_content() for comment in Comment.objects.filter(parent_object=object_id).order_by("id")[cursor*max_results:(cursor+1)*max_results]], safe=False)

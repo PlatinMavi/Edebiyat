@@ -2,7 +2,20 @@ from django.http import JsonResponse
 from http import HTTPStatus
 import time
 
-#decorator
+
+class RestrictedAccess():
+	def __init__(self, time : int = 5):
+		self.time = time
+
+
+def restrict_access_support(func):
+	def wrapper(*args,**kwargs):
+		return_value = func(*args,**args)
+		if type(return_value) == RestrictedAccess:
+			return error_response("errors.request.restricted",f"Blocked access for {return_value.time} seconds")
+	return wrapper
+
+
 def post_requests_only(func):
 	def wrapper(request, *args, **kwargs):
 		if request.method.lower() != "post":

@@ -64,7 +64,7 @@ class LiteratureObject(VoteableObject):
 	# 		comment_interest_rate = votes["up"]-votes["down"]
 	# 		total_votes = votes["up"]-votes["down"]
 	# 		self.interest_rate = total_votes/total_comments
-	def filtered_json(self) -> str:
+	def filtered_content(self) -> str:
 		return {
 			"id":self.id,
 			"type":self.type,
@@ -94,7 +94,7 @@ class Comment(VoteableObject):
 	author_headers = models.CharField(
 		editable=False, max_length=1000, default="?")
 	author_id = models.CharField(max_length=3,editable=False, default=-1,null=True)
-	def filtered_json(self) -> str:
+	def filtered_content(self) -> str:
 		return {
 				"id":self.id,
 				"parent_object":{"id":self.parent_object.id},

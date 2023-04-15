@@ -5,3 +5,18 @@
 .CUSTOMY{
     border-left: 3px rgb(51 65 85);
 }
+.iconsm{
+	font-size: 1.5rem;
+	height: 20px;
+	width: fit-content;
+	display: inline;
+	padding: 0 0px 0 5px;
+}
+
+.iconxsm{
+	font-size: 1.5rem;
+	height: 10px;
+	width: fit-content;
+	display: inline;
+	padding: 0 0px 0 5px;
+}

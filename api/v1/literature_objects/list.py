@@ -23,4 +23,4 @@ def export(request: HttpRequest):
 	except Exception as e:
 		# return HttpResponse(e)
 		return error_response("errors.comment.list.invalid_max-results", f"Max results must be one of {ACCEPT_MAX_RESULTS}, got {request.GET.get('max-results')}")
-	return JsonResponse([literature_object.filtered_json() for literature_object in LiteratureObject.objects.order_by("id")[cursor*max_results:(cursor+1)*max_results]],safe=False)
+	return JsonResponse([literature_object.filtered_content() for literature_object in LiteratureObject.objects.order_by("id")[cursor*max_results:(cursor+1)*max_results]],safe=False)
