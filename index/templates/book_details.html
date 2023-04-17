@@ -7,10 +7,9 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src = "../	static/tailwind_config.js"> </script>
+	<script src = "../static/tailwind_config.js"> </script>
 	<script src="https://cdn.tailwindcss.com"></script>
-	<link rel="stylesheet" href="{% static 'style.css' %}">
-	<title>Document</title>
+	<link rel="stylesheet" href="/static/style.css">
 	<style>
 		.scrollbar-hide::-webkit-scrollbar {
 			display: none;
@@ -35,31 +34,49 @@
 	<div id = "main" class="h-96 container w-max mx-auto p-10">
 		<div class="h-full justify-center grid gap-10 sm:grid-rows-1 w-max mx-auto">
 			<div class=" h-full w-max flex flex-col items-center bg-gradient-to-r from-rose-50 to-teal-50 border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-				<img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src="../media/{{AYKITAP.foto}}" alt="">
+				<img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src="{{BOOK.image.url}}" alt="">
 				<div class="flex flex-col justify-between p-10 leading-normal">
-					<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{BOOK.isim}}, {{BOOK.yazar}}</h5>
-					<p class="mb-3 font-normal text-gray-700 dark:text-gray-400 text-sm">{{BOOK.acikama}}</p>
+					<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+						<div style="position: relative; margin-left: auto; display: inline; bottom: 0px;" class = "left-15">
+							<img class="iconxsm" src="/static/thumbs_up.png">
+							<a style="font-size: x-small;">
+								{{BOOK.votes.up}}
+							</a>
+							<img class="iconxsm" src="/static/thumbs_down.png">
+							<a style="font-size: x-small;">
+								{{BOOK.votes.down}}
+							</a>
+						</div>
+						{{BOOK.name}}, {{BOOK.creator.name}}</h5>
+					<p class="mb-3 font-normal text-gray-700 dark:text-gray-400 text-sm">{{BOOK.content}}</p>
 				</div>
 			</div>
 		</div>
 	</div>
-
-	<footer>
-
-		<div class="w-screen bg-gradient-to-r from-gray-700 via-gray-900 to-black h-72 grid grid-cols-3 mx-auto">
-			<div class="">
-				<h1 class="text-white mx-auto w-max">Filler - Footer</h1>
-			</div>
-			<div class="">
-				<h1 class="text-white mx-auto w-max text-3xl">Filler - Footer</h1>
-				<h1 class="text-white mx-auto w-max">Filler - Footer</h1>
-				<h1 class="text-white mx-auto w-max">Filler - Footer</h1>
-			</div>
-			<div class="">
-				<h1 class="text-white mx-auto w-max">Filler - Footer</h1>
-			</div>
+	<div id = "comments_section">
+		<div id = "comments_post">
+			POST A COMMENT
 		</div>
-	</footer>
+		<div id = "comments">
+			COMMENTS WILL BE SHOWN HERE
+		</div>
+	</div>
 </body>
+<footer>
 
+	<div class="w-screen bg-gradient-to-r from-gray-700 via-gray-900 to-black h-72 grid grid-cols-3 mx-auto">
+		<div class="">
+			<h1 class="text-white mx-auto w-max">Filler - Footer</h1>
+		</div>
+		<div class="">
+			<h1 class="text-white mx-auto w-max text-3xl">Filler - Footer</h1>
+			<h1 class="text-white mx-auto w-max">Filler - Footer</h1>
+			<h1 class="text-white mx-auto w-max">Filler - Footer</h1>
+		</div>
+		<div class="">
+			<h1 class="text-white mx-auto w-max">Filler - Footer</h1>
+		</div>
+	</div>
+</footer>
+<script src = "/static/js/object_details.builder.js"></script>
 </html>

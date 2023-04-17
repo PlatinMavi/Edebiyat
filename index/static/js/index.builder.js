@@ -9,8 +9,8 @@ function sleep(number) {
 }
 
 function main() {
-	var month = new Date()
-	const this_month_text = MONTHS[month.getMonth()][0].toUpperCase() + MONTHS[month.getMonth()].slice(1) + ", " + month.getFullYear()
+	var date = new Date()
+	const this_month_text = MONTHS[date.getMonth()][0].toUpperCase() + MONTHS[date.getMonth()].slice(1) + ", " + date.getFullYear()
 	document.getElementById("this_month").innerText = this_month_text
 }
 main()

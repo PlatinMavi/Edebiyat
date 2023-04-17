@@ -15,7 +15,7 @@ def export(request: HttpRequest, object_id: int):
 	is_hide_name = request.headers.get("is-hide-name")
 	is_spoilers = request.headers.get("is-spoilers")
 	author_name = request.headers.get("author-name")
-	comment = request.headers.get("comment")
+	content = request.headers.get("content")
 	if str(is_hide_name).lower() == "true":
 		is_hide_name = True
 	else:
@@ -26,11 +26,11 @@ def export(request: HttpRequest, object_id: int):
 	else:
 		is_spoilers = False
 
-	if not comment or len(comment) < 1 or len(comment) > 1000:
-		return error_response("errors.comment.post.length", f"Comment length should be between 1 and 1000, got {comment and len(comment) or 'null'}")
+	if not content or len(content) < 1 or len(content) > 1000:
+		return error_response("errors.comment.post.length", f"Comment length should be between 1 and 1000, got {content and len(content) or 'null'}")
 	if not author_name or len(author_name) > 30 or len(author_name) < 3:
 		return error_response("errors.comment.post.author.name", f"Author name should be between 3 and 30, got {author_name and len(author_name) or 'null'}")
-	comment = filter_comment(comment)
+	content = filter_comment(content)
 	# got all parameters
 	# now we can create comment
 	# first we need to get parent object
@@ -38,8 +38,8 @@ def export(request: HttpRequest, object_id: int):
 	if not parent_object:
 		return error_response("errors.comment.post.parent_object", f"Book object not found with id {object_id}")
 	# now we can create comment
-	comment = Comment(parent_object=parent_object, author_name=author_name, message=comment, hide_name=is_hide_name,
+	content = Comment(parent_object=parent_object, author_name=author_name, content=content, hide_name=is_hide_name,
 					  spoilers=is_spoilers, author_ip=request.META.get("REMOTE_ADDR"), author_headers=headers,
 					  author_id=request.META.get("REMOTE_ADDR")[:2])
-	comment.save()
-	return JsonResponse(comment.filtered_content(), safe=False)
+	content.save()
+	return JsonResponse(content.filtered_content(), safe=False)

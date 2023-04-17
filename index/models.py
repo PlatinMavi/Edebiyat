@@ -82,8 +82,8 @@ class Comment(VoteableObject):
 	parent_object = models.ForeignKey(LiteratureObject,on_delete=models.CASCADE, 
 		editable=False, verbose_name="Yorum Yapılan Eser", default=0)
 	author_name = models.CharField(max_length=30, verbose_name="Kullanıcı Adı")
-	message = models.TextField(max_length=1000, verbose_name="Yorum İçeriği")
-	created_at = models.DateField(auto_now=True, editable=False)
+	content = models.TextField(max_length=1000, verbose_name="Yorum İçeriği")
+	created_at = models.DateTimeField(auto_created=True, editable=True)
 	approved_by = models.CharField(choices=((None,"None"),("phasenull","phasenull"),("admin","admin")),
 		max_length=30, default=None, editable=True, verbose_name="Onaylayan Yetkili", null=True, blank=True)
 	hide_name = models.BooleanField(
@@ -98,13 +98,13 @@ class Comment(VoteableObject):
 		return {
 				"id":self.id,
 				"parent_object":{"id":self.parent_object.id},
-				"author": {"name": self.hide_name and None or self.author_name, "uid": self.author_id},
+				"author": {"name": self.hide_name and "null" or self.hide_name and None or self.author_name, "uid": self.author_id},
 				"created_at":self.created_at,
-				"vote_count":self.GET_VOTE_COUNT(),
+				"votes":self.GET_VOTE_COUNT(),
 				"approved_by":self.approved_by,
 				"hide_name":self.hide_name,
 				"spoilers":self.spoilers,
-				"message":self.message,
+				"content":self.content,
 			}
 	def __str__(self) -> str:
 		literature_object = LiteratureObject.objects.filter(id=self.parent_object.id).first()
