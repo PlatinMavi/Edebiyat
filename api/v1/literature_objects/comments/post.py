@@ -27,16 +27,16 @@ def export(request: HttpRequest, object_id: int):
 		is_spoilers = False
 
 	if not content or len(content) < 1 or len(content) > 1000:
-		return error_response("errors.comment.post.length", f"Comment length should be between 1 and 1000, got {content and len(content) or 'null'}")
+		return error_response("errors.comments.post.length", f"Comment length should be between 1 and 1000, got {content and len(content) or 'null'}")
 	if not author_name or len(author_name) > 30 or len(author_name) < 3:
-		return error_response("errors.comment.post.author.name", f"Author name should be between 3 and 30, got {author_name and len(author_name) or 'null'}")
+		return error_response("errors.comments.post.author.name", f"Author name should be between 3 and 30, got {author_name and len(author_name) or 'null'}")
 	content = filter_comment(content)
 	# got all parameters
 	# now we can create comment
 	# first we need to get parent object
 	parent_object = LiteratureObject.objects.get(id=object_id)
 	if not parent_object:
-		return error_response("errors.comment.post.parent_object", f"Book object not found with id {object_id}")
+		return error_response("errors.comments.post.parent_object", f"Parent object not found with id {object_id}")
 	# now we can create comment
 	content = Comment(parent_object=parent_object, author_name=author_name, content=content, hide_name=is_hide_name,
 					  spoilers=is_spoilers, author_ip=request.META.get("REMOTE_ADDR"), author_headers=headers,

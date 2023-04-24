@@ -13,14 +13,14 @@ def export(request: HttpRequest):
 	try:
 		cursor = request.GET.get("cursor") and int(request.GET.get("cursor")) or 0
 		if cursor < 0:
-			raise Exception("cursor < 0")
+			raise Exception("errors.comments.list.cursor")
 	except:
-		return error_response("errors.comment.list.cursor", f"Cursor must be an integer bigger or equal to 0, got {request.GET.get('cursor')}")
+		return error_response("errors.comments.list.cursor", f"Cursor must be an integer bigger or equal to 0, got {request.GET.get('cursor')}")
 	try:
 		max_results = (request.GET.get("max-results") and int(request.GET.get("max-results"))) or 0
 		if max_results and not (max_results in ACCEPT_MAX_RESULTS):
-			raise Exception("max-results not in ACCEPT_MAX_RESULTS")
+			raise Exception("errors.comments.list.max_results")
 	except Exception as e:
 		# return HttpResponse(e)
-		return error_response("errors.comment.list.invalid_max-results", f"Max results must be one of {ACCEPT_MAX_RESULTS}, got {request.GET.get('max-results')}")
+		return error_response("errors.comment.list.cursor.max-results", f"Max results must be one of {ACCEPT_MAX_RESULTS}, got {request.GET.get('max-results')}")
 	return JsonResponse([literature_object.filtered_content() for literature_object in LiteratureObject.objects.order_by("id")[cursor*max_results:(cursor+1)*max_results]],safe=False)
