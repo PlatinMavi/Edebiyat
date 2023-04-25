@@ -49,7 +49,10 @@
 
 		<div class="grid grid-cols-2 gap-10 sm:grid-rows-1 w-max mx-auto">
 			<div class = "mb-4 ">
-				<h2 class="mx-3 my-2 text-xl font-serif">Ayın Kitabı:</h2>
+				<a href="/books/{{BOOK_OF_THE_MONTH.id}}"class=" text-xl tracking-tight">
+					<h2 class="mx-3 my-2 text-xl font-serif">Ayın Kitabı:</h2>
+				</a>
+				
 				<div
 					class="w-max flex flex-col items-center bgdb rounded-lg shadow md:flex-row md:max-w-xl ">
 					<img class="object-cover w-full h-48 "
@@ -150,18 +153,18 @@
 		</div>
 		<hr class="my-7">
 		{%endif%}
-		<div class="mx-auto">
+		<div class="mx-auto ">
 			<h3 class="mx-auto text-4xl font-serif">En Çok Okunan Dergiler:</h3>
 			<div class="grid grid-cols-5 gap-8 mx-auto my-5">
-				{% for x in DERGI%}
+				{% for x in TOP_MAGAZINES%}
 				<div
-					class="max-w-sm bg-gradient-to-r from-rose-50 to-teal-50 border border-gray-200 rounded-lg shadow hover:bg-gradient-to-r hover:from-purple-400 hover:to-yellow-400">
+					class="max-w-sm bgdb rounded-lg shadow">
 					<a href="{{x.url}}" target=_blank>
-						<img class="rounded-t-lg w-full object-fill" src="{{x.foto}}" alt="" />
+						<img class="rounded-t-lg w-full object-fill" src="{{x.image.url}}" alt="" />
 					</a>
 					<div class="mt-2 mx-4">
 						<a href="{{x.url}}" target=_blank>
-							<h5 class="mb-2 text-2xl font-serif italic tracking-tight text-gray-900 dark:text-white">
+							<h5 class="mb-2 text-2xl font-serif italic tracking-tight ">
 								{{x.name}}</h5>
 						</a>
 					</div>
@@ -176,11 +179,11 @@
 				{% for book in TOP_BOOKS%}
 				<a href="books/{{book.id}}" target=_blank>
 					<div
-						class="max-w-sm bg-gradient-to-r from-rose-50 to-teal-100 border border-gray-200 rounded-lg shadow hover:bg-gradient-to-r hover:from-teal-200 hover:to-blue-200">
+						class="max-w-sm bgdb rounded-lg shadow ">
 						<!--  hover:from-cyan-400 hover:to-cyan-600  -->
 						<img class="rounded-t-lg w-full object-fill " src="{{book.image.url}}" alt="" />
 						<div class="mt-2 mx-4 justify-center">
-							<h5 class="mb-2 text-2xl font-serif italic tracking-tight text-gray-900 dark:text-black">
+							<h5 class="mb-2 text-2xl font-serif italic tracking-tight ">
 								{{book.name}}
 								<br>
 								<p class="text-lg" style = "position: relative;justify-content: end;">{{book.creator.name}}</p>
