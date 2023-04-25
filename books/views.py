@@ -11,7 +11,7 @@ def render_book(request,id : str or None):
     kitap_query = LiteratureObject.objects.filter(id=id)
     if (len(kitap_query) == 0):
         return page_not_found()
-    data = {"BOOK" : kitap_query[0]}
+    data = {"BOOK" : kitap_query.first().filtered_content()}
     return HttpResponse(template.render(data,request))
 
 def page_not_found():

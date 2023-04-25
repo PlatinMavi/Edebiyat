@@ -1,0 +1,22 @@
+{
+	"ok":"Tamam",
+	"error":"Hata",
+	"send":"Gönder",
+	"anonymous":"anonim",
+	"anonymous_author":"Anonim Yazar",
+	"share_anonymous":"Anonim olarak paylaş",
+	"has_spoilers":"Spoiler içeriyor",
+	"unknown_translation":"HATALI ÇEVİRİ",
+	"comment_not_approved":"Onaylanmamış içerik",
+	"errors.comments.list.cursor":"TR-Cursor must be an integer bigger or equal to 0",
+	"errors.comments.list.cursor.max-results":"TR-Max results must be one of [0, 1, 5, 10, 20, 50]",
+	"errors.comments.post.length": "TR-Comment length should be between 1 and 1000 characters",
+	"errors.comments.post.author.name": "TR-Author name should be between 3 and 30 characters",
+	"errors.comments.post.parent_object":"TR-Parent object not found with given id",
+	"errors.comments.vote.comment_id_invalid":"TR-Comment id must be an integer",
+	"errors.comments.not_found":"TR-Comment not found with given id",
+	"errors.comments.vote.value_expected":"TR-vote-value header is required",
+	"errors.comments.vote.value_invalid":"TR-vote-value header should be 1, -1 or 0",
+	"errors.translations.get.invalid_language":"TR-Language is not valid",
+	"errors.literature_objects.not_found":"TR-Literature Object not found with given id"
+}

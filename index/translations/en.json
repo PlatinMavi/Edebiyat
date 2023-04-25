@@ -1,0 +1,16 @@
+{
+	"ok":"Ok",
+	"error":"Error",
+	"send":"Send",
+	"errors.comments.list.cursor":"Cursor must be an integer bigger or equal to 0",
+	"errors.comments.list.cursor.max-results":"Max results must be one of [0, 1, 5, 10, 20, 50]",
+	"errors.comments.post.length": "Comment length should be between 1 and 1000 characters",
+	"errors.comments.post.author.name": "Author name should be between 3 and 30 characters",
+	"errors.comments.post.parent_object":"Parent object not found with given id",
+	"errors.comments.vote.comment_id_invalid":"Comment id must be an integer",
+	"errors.comments.not_found":"Comment not found with given id",
+	"errors.comments.vote.value_expected":"vote-value header is required",
+	"errors.comments.vote.value_invalid":"vote-value header should be 1, -1 or 0",
+	"errors.translations.get.invalid_language":"Language is not valid",
+	"errors.literature_objects.not_found":"Literature Object not found with given id"
+}
