@@ -2,7 +2,7 @@ from django.urls import path, include
 from django.http import HttpResponse, JsonResponse, HttpRequest
 from index.models import LiteratureObject, Comment, LiteratureObject, LiteratureObject, Creator, Vote, filter_comment
 import time
-from util import post_requests_only, error_response, get_requests_only
+from util import post_requests_only, error_response, can_be_restricted
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -42,4 +42,4 @@ def export(request: HttpRequest, object_id: int):
 					  spoilers=is_spoilers, author_ip=request.META.get("REMOTE_ADDR"), author_headers=headers,
 					  author_id=request.META.get("REMOTE_ADDR")[:2])
 	content.save()
-	return JsonResponse(content.filtered_content(), safe=False)
+	return JsonResponse({"success":True,"data":content.filtered_content()}, safe=False)

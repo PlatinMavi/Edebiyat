@@ -2,12 +2,12 @@ from django.urls import path, include
 from django.http import HttpResponse, JsonResponse, HttpRequest
 from index.models import LiteratureObject, Comment, LiteratureObject, LiteratureObject, Creator, Vote, filter_comment
 import time
-from util import post_requests_only, error_response, get_requests_only
+from util import post_requests_only, error_response, can_be_restricted
 
 from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
-@get_requests_only
+@can_be_restricted
 def export(request, object_id):
 	ACCEPT_MAX_RESULTS = [0, 1, 5, 10, 20, 50]
 	try:
@@ -24,4 +24,6 @@ def export(request, object_id):
 		# return HttpResponse(e)
 		return error_response("errors.comment.list.invalid_max-results", f"Max results must be one of {ACCEPT_MAX_RESULTS}, got {request.GET.get('max-results')}")
 	return JsonResponse(
-		[comment.filtered_content() for comment in Comment.objects.filter(parent_object=object_id).order_by("-interest_rate")[cursor*max_results:(cursor+1)*max_results]], safe=False)
+		{"success":True,
+		"data":[comment.filtered_content() for comment in Comment.objects.filter(parent_object=object_id).order_by("-interest_rate")[cursor*max_results:(cursor+1)*max_results]]
+		}, safe=False)

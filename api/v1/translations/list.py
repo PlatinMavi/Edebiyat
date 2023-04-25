@@ -1,17 +1,13 @@
 from django.urls import path, include
 from django.http import HttpResponse, JsonResponse, HttpRequest
 import time
-from util import error_response, get_requests_only
+from util import error_response, can_be_restricted
 
 from django.views.decorators.csrf import csrf_exempt
 
 import os
 
 @csrf_exempt
-@get_requests_only
-def export(request: HttpRequest,language: str):
-	language = language.lower()
-	is_valid = language+".json" in os.listdir("index/translations")
-	if not is_valid:
-		return error_response("errors.translations.get.invalid_language", f"Language {language} is not valid")
-	return JsonResponse(open("index/translations/"+language+".json","r").read(), safe=False)
+@can_be_restricted
+def export(request: HttpRequest):
+	return JsonResponse({"success":True,"data":{"tr":"Türkçe","en":"English"}}, safe=False)

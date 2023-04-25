@@ -1,4 +1,5 @@
 from django.db import models
+import time
 class VoteableObject(models.Model):
 	class Meta:
 		abstract = True
@@ -49,19 +50,10 @@ class LiteratureObject(VoteableObject):
 	url = models.URLField(verbose_name="Esere ait link")
 	content = models.TextField(verbose_name="İçerik" , max_length=1000)
 	type = models.TextField(verbose_name="Tür", choices = ObjectTypes)
-	# interest_rate = models.FloatField(verbose_name="İlgi Oranı", default=0)
 	def __str__(self):
 		return f"{self.id} : ({self.creator.ObjectTypes[self.creator.ObjectIndexes.index(self.creator.type)][1]}) {self.creator.name} : ({self.ObjectTypes[self.ObjectIndexes.index(self.type)][1]}) {self.name}"
 	def GetComments(self):
 		return Comment.objects.filter(parent_object=self).all()
-	# def RefreshInterestRate(self):
-	# 	comments = self.GetComments()
-	# 	total_comments = len(comments)
-	# 	for comment in comments:
-	# 		votes = comment.GET_VOTE_COUNT()
-	# 		comment_interest_rate = votes["up"]-votes["down"]
-	# 		total_votes = votes["up"]-votes["down"]
-	# 		self.interest_rate = total_votes/total_comments
 	def filtered_content(self) -> str:
 		return {
 			"id":self.id,
@@ -81,7 +73,7 @@ class Comment(VoteableObject):
 		editable=False, verbose_name="Yorum Yapılan Eser", default=0)
 	author_name = models.CharField(max_length=30, verbose_name="Kullanıcı Adı")
 	content = models.TextField(max_length=1000, verbose_name="Yorum İçeriği")
-	created_at = models.DateTimeField(auto_created=True, editable=True)
+	created_at = models.DateTimeField(auto_now_add=True, editable=True)
 	approved_by = models.CharField(choices=((None,"None"),("phasenull","phasenull"),("admin","admin")),
 		max_length=30, default=None, editable=True, verbose_name="Onaylayan Yetkili", null=True, blank=True)
 	hide_name = models.BooleanField(
@@ -102,7 +94,7 @@ class Comment(VoteableObject):
 				"approved_by":self.approved_by,
 				"hide_name":self.hide_name,
 				"spoilers":self.spoilers,
-				"content":self.content,
+				"content": self.approved_by and self.content or "Bu yorum daha onaylanmadı.",
 			}
 	def __str__(self) -> str:
 		literature_object = LiteratureObject.objects.filter(id=self.parent_object.id).first()
@@ -125,5 +117,9 @@ class Vote(models.Model):
 	def IS_DOWN(self) -> bool:
 		return self.value == -1
 
+class RestrictedAccessModel(models.Model):
+	ip_adress = models.GenericIPAddressField(editable=False,default="0.0.0.0",null=False)
+	until = models.IntegerField(default=time.time() + 30, editable=True)
+	reason = models.TextField(default="unknown_reason", editable=True)
 def filter_comment(comment: Comment):
 	return comment

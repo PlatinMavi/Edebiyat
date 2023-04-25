@@ -2,7 +2,7 @@ from django.urls import path, include
 from django.http import HttpResponse, JsonResponse, HttpRequest
 from index.models import LiteratureObject, Comment, LiteratureObject, LiteratureObject, Creator, Vote, filter_comment
 import time
-from util import post_requests_only, error_response, get_requests_only
+from util import post_requests_only, error_response, can_be_restricted
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -41,4 +41,4 @@ def export(request, object_id, comment_id):
 				"errors.comments.not_found",
 				f"Comment not found with id {comment_id}")
 	comment.ADD_VOTE(vote_value, request.META.get("REMOTE_ADDR"))
-	return JsonResponse({"votes": comment.GET_VOTE_COUNT(), "comment_id": comment.id}, safe=False)
+	return JsonResponse({"success":True,"votes": comment.GET_VOTE_COUNT(), "comment_id": comment.id}, safe=False)

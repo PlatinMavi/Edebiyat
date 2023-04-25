@@ -1,5 +1,5 @@
 function Translated(key) {
-	return window["translation-data"][key]
+	return window["translation-data"][key] || Translated("unknown_translation")
 }
 function global() {
 	console.log("Loading global.js")
@@ -20,7 +20,11 @@ language_request.send()
 language_request.onload = (e) => {
 	if (language_request.status === 200) {
 		const data = JSON.parse(language_request.responseText)
-		window["translation-data"] = data
-		global()
+		if (data.success) {
+			window["translation-data"] = data["data"]
+			global()
+		} else {
+			window.location.reload()
+		}
 	}
 }

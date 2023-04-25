@@ -1,4 +1,4 @@
-let TEMPLATE_COMMENT
+let TEMPLATE_COMMENT, latest_alert
 const comments_list = document.getElementById("comments")
 let comment = {
 	is_anonymous: false,
@@ -21,13 +21,16 @@ function main() {
 	comments_request.onload = (e) => {
 		if (comments_request.status == 200 && comments_request.responseText) {
 			const data = JSON.parse(comments_request.responseText)
-			data.forEach((comment) => {
-				new Comment(comment)
-			})
+			if (data.success) {
+				data["data"].forEach((comment) => {
+					new Comment(comment)
+				})
+			}
 		}
 	}
-	
+
 	const comments_post = document.getElementById("comments_post")
+	const comment_author = document.getElementById("comments_post_author")
 	const is_spoilers_element = document.getElementById("is_contains_spoilers")
 	const is_anonymous_element = document.getElementById("is_anonymous")
 	const comment_content_element = document.getElementById("comments_post_content")
@@ -42,38 +45,45 @@ function main() {
 		request.setRequestHeader("content", comment["content"])
 		request.send()
 		request.onload = (e) => {
-			if (request.responseText) {
-				const data = JSON.parse(request.responseText)
-				if (data.success) {
-					new Comment(data)
-				} else {
-					const error_message = Translated(data.error)
-					const error = data.error
-					console.log(error, ":", error_message)
-					const new_alert = document.createElement("bl-alert")
-					new_alert.setAttribute("variant", "danger")
-					new_alert.setAttribute("caption", Translated("error")+": " + error)
-					new_alert.innerText = error_message
-					const button = document.createElement("bl-button")
-					button.setAttribute("slot", "action-secondary")
-					button.innerText = Translated("ok")
-					new_alert.appendChild(button)
-					button.addEventListener("bl-click", (e) => {
-						new_alert.close()
-					})
-					comments_post.appendChild(new_alert)
-				}
+			if (!request.responseText) {
+				return
 			}
+			const data = JSON.parse(request.responseText)
+			if (data.success) {
+				new Comment(data.data)
+				return
+			}
+			// something went wrong
+			latest_alert?.close()
+			const error_message = Translated(data.error)
+			const error = data.error
+			console.log(error, ":", error_message)
+			const new_alert = document.createElement("bl-alert")
+			new_alert.setAttribute("variant", "danger")
+			new_alert.setAttribute("caption", Translated("error") + ": " + error)
+			new_alert.innerText = error_message
+			const button = document.createElement("bl-button")
+			button.setAttribute("slot", "action-secondary")
+			button.innerText = Translated("ok")
+			new_alert.appendChild(button)
+			latest_alert = new_alert
+			button.addEventListener("bl-click", (e) => {
+				new_alert.close()
+			})
+			comments_post.appendChild(new_alert)
 		}
 	})
 	is_spoilers_element.addEventListener("bl-switch-toggle", (e) => {
 		comment["is_spoilers"] = e.detail
 	})
-	comment_content_element.addEventListener("bl-input", (e) => {
+	comment_content_element.addEventListener("bl-change", (e) => {
 		comment["content"] = comment_content_element.getAttribute("value")
 	})
 	is_anonymous_element.addEventListener("bl-switch-toggle", (e) => {
 		comment["is_anonymous"] = e.detail
+	})
+	comment_author.addEventListener("bl-change", (e) => {
+		comment["author"] = e.detail
 	})
 }
 function comment_page_changed(object) {
@@ -96,6 +106,13 @@ class Comment {
 		field_creator.innerText = comment_data.hide_name ? "anonim (" + comment_data.author.uid + ")" : comment_data.author.name + " (" + comment_data.author.uid + ")"
 		if (comment_data.hide_name) {
 			field_creator.style.fontStyle = "italic"
+			field_creator.style.color = "rgba(0, 0, 0, 0.7)"
+			field_creator.innerText = Translated("anonymous_author")
+		}
+		if (!comment_data.approved_by) {
+			field_message_content.style.fontStyle = "italic"
+			field_message_content.style.color = "rgba(0, 0, 0, 0.7)"
+			field_message_content.innerText = Translated("comment_not_approved")
 		}
 		field_message_downvotes.addEventListener("click", () => {
 			console.log("downvote")
