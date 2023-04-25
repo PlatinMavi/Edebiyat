@@ -1,67 +1,12 @@
-.CUSTOMX{
-    border-right: 3px rgb(51 65 85);
+.bgw{
+	background-color: #F1F6F9;
 }
-
-.CUSTOMY{
-    border-left: 3px rgb(51 65 85);
+.bgb{
+	background-color: #394867;
 }
-.iconsm{
-	font-size: 1.5rem;
-	height: 20px;
-	width: fit-content;
-	display: inline;
-	padding: 0 0px 0 5px;
+.bgdb{
+	background-color: #212A3E;
 }
-
-.iconxsm{
-	font-size: 1.5rem;
-	height: 10px;
-	width: fit-content;
-	display: inline;
-	padding: 0 0px 0 5px;
-}
-
-.comment {
-	font-size: large;
-	margin-left: 5%;
-	margin-right: 20%;
-	/* margin-top: 5px; */
-	padding-left: 10px;
-	padding-top: 5px;
-	/* border-radius: 10px; */
-	border-top: 2px;
-	border-color: black;
-	background-color: rgba(0, 195, 255, 0.1);
-}
-.comment-creator {
-	margin-left: 1rem;
-	margin-top: 1rem;
-	font-size: large;
-	font-family: Arial, Helvetica, sans-serif;
-	font-weight: bold;
-	display: inline;
-}
-.comment-content {
-	font-size: medium;
-	padding-top : 0.25rem;
-	padding-left: 2rem;
-	padding-right: 2rem;
-	position: relative;
-}
-.comment-votes {
-	display: inline;
-}
-
-.comment-content-container {
-	display: inline;
-}
-
-.comment-created-at {
-	font-weight: bold;
-	font-size: small; 
-	display: inline;
-	position: relative;
-	color: rgba(0, 0, 0, 0.284);
-	font-family: monospace;
-	justify-content: center;
+.bgg{
+	background-color: #9BA4B5;
 }
