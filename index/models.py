@@ -117,9 +117,9 @@ class Vote(models.Model):
 	def IS_DOWN(self) -> bool:
 		return self.value == -1
 
-class RestrictedAccessModel(models.Model):
-	ip_adress = models.GenericIPAddressField(editable=False,default="0.0.0.0",null=False)
-	until = models.IntegerField(default=time.time() + 30, editable=True)
-	reason = models.TextField(default="unknown_reason", editable=True)
+# class LimitedAccessModel(models.Model):
+# 	ip_adress = models.GenericIPAddressField(editable=True,default="0.0.0.0")
+# 	until = models.FloatField(default=time.time() + 30, editable=True)
+# 	reason = models.TextField(default="unknown_reason", editable=True)
 def filter_comment(comment: Comment):
 	return comment

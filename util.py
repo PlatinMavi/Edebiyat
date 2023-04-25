@@ -1,7 +1,7 @@
 from django.http import JsonResponse,HttpRequest
 from http import HTTPStatus
 import time
-from index.models import RestrictedAccessModel
+# from index.models import RestrictedAccessModel
 
 class RestrictedAccess:
 	def __init__(self,request:HttpRequest, until: int = time.time() + 30, reason: str = "unknown_reason"):
@@ -9,12 +9,12 @@ class RestrictedAccess:
 		self.until = until
 		self.reason = reason
 
-def restrict_access_support(func):
-	def wrapper(*args,**kwargs):
-		return_value = func(*args,**args)
-		if type(return_value) == RestrictedAccessModel:
-			return error_response("errors.request.restricted",f"Blocked access for {return_value.time} seconds")
-	return wrapper
+# def restrict_access_support(func):
+# 	def wrapper(*args,**kwargs):
+# 		return_value = func(*args,**args)
+# 		if type(return_value) == RestrictedAccessModel:
+# 			return error_response("errors.request.restricted",f"Blocked access for {return_value.time} seconds")
+# 	return wrapper
 
 
 def post_requests_only(func):
@@ -31,19 +31,20 @@ def can_be_restricted(func):
 		return func(request, *args, **kwargs)
 	return wrapper
 
-def is_request_restricted(request:HttpRequest) -> bool:
-	return RestrictedAccessModel.objects.get(ip_adress=request.META.get("REMOTE_ADDR"))
+# def is_request_restricted(request:HttpRequest) -> bool:
+# 	return RestrictedAccessModel.objects.get(ip_adress=request.META.get("REMOTE_ADDR"))
 
-def can_be_restricted(func):
-	def wrapper(request,*args, **kwargs):
-		model = is_request_restricted(request)
-		if model:
-			return error_response("errors.request.restricted",f"Blocked access for {time.time()-model.until} seconds for reason {model.reason}")
-		return_value = func(request, *args, **kwargs)
-		if type(return_value) == RestrictedAccess:
-			RestrictedAccessModel(ip_adress = return_value.ip,reason=return_value.reason,until=return_value.until).save()
-			return error_response("errors.request.restricted",f"Blocked access for {time.time()-model.until} seconds for reason {model.reason}")
-
+# def can_be_restricted(func):
+# 	def wrapper(request,*args, **kwargs):
+# 		model = is_request_restricted(request)
+# 		if model:
+# 			return error_response("errors.request.restricted",f"Blocked access for {time.time()-model.until} seconds for reason {model.reason}")
+# 		return_value = func(request, *args, **kwargs)
+# 		if type(return_value) == RestrictedAccess:
+# 			new_restricted_access = RestrictedAccessModel(ip_adress = return_value.ip,reason=return_value.reason,until=return_value.until)
+# 			new_restricted_access.save()
+# 			return error_response("errors.request.restricted",f"Blocked access for {time.time()-model.until} seconds for reason {model.reason}")
+# 		return return_value
 
 
 	return wrapper
