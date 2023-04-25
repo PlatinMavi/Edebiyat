@@ -8,9 +8,9 @@ import datetime
 def index(request):
 
     magazines = LiteratureObject.objects.filter(type="magazine").all()
-    books = LiteratureObject.objects.filter().all() # type="book"
+    books = LiteratureObject.objects.filter(type="book").all() # type="book"
     top_poem = LiteratureObject.objects.filter(type="poem").all().first()
-    book_of_the_month = LiteratureObject.objects.all().order_by("interest_rate").last()
+    book_of_the_month = LiteratureObject.objects.all().filter(type="book").order_by("interest_rate").first()
     zaman = datetime.datetime.now()
     zaman_str = zaman.strftime("%Y-%m-%d")
     aylar = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"]
@@ -23,6 +23,6 @@ def index(request):
         "TOP_BOOKS": books and [book.filtered_content() for book in books],
         "CREATOR_BIRTHDAY": birthday_creator,
         "THIS_MONTH": this_month,
-        "BOOK_OF_THE_MONTH": book_of_the_month and top_poem.filtered_content(),
+        "BOOK_OF_THE_MONTH": book_of_the_month and book_of_the_month.filtered_content(),
     }
     return HttpResponse(template.render(context, request))
