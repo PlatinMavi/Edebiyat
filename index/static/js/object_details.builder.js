@@ -1,5 +1,6 @@
 let TEMPLATE_COMMENT, latest_alert
 const comments_list = document.getElementById("comments")
+const URL = window.location.pathname.split('/');
 let comment = {
 	is_anonymous: false,
 	is_spoilers: false,
@@ -7,16 +8,40 @@ let comment = {
 	parent_id: null,
 	author: "",
 }
+
+function decode_utf8(a) {
+    for(var i=0, s=''; i<a.length; i++) {
+        var h = a[i].toString(16)
+        if(h.length < 2) h = '0' + h
+        s += '%' + h
+    }
+    return decodeURIComponent(s)
+}
+function encode_utf8(s) {
+    for(var i=0, enc = encodeURIComponent(s), a = []; i < enc.length;) {
+        if(enc[i] === '%') {
+            a.push(parseInt(enc.substr(i+1, 2), 16))
+            i += 3
+        } else {
+            a.push(enc.charCodeAt(i++))
+        }
+    }
+    let final_string = ""
+	a.forEach((value)=>{
+		final_string += "\\" + value
+	})
+	return final_string
+}
 function main() {
 	// document.addEventListener("scroll",(e)=>{
 	// 	console.log(window.scrollY)
 	// })
-	const comment_page = document.getElementById("comments_page")
-	comment_page.addEventListener("bl-change", (e) => {
-		comment_page_changed(comment_page)
-	})
+	// const comment_page = document.getElementById("comments_page")
+	// comment_page.addEventListener("bl-change", (e) => {
+	// 	comment_page_changed(comment_page)
+	// })
 	const comments_request = new XMLHttpRequest()
-	comments_request.open("GET", "/api/v1/literature_objects/" + "1" + "/comments/list?max-results=50&cursor=" + 0)
+	comments_request.open("GET", "/api/v1/literature_objects/" + URL[2] + "/comments/list?max-results=50&cursor=" + 0)
 	comments_request.send()
 	comments_request.onload = (e) => {
 		if (comments_request.status == 200 && comments_request.responseText) {
@@ -35,14 +60,19 @@ function main() {
 	const is_anonymous_element = document.getElementById("is_anonymous")
 	const comment_content_element = document.getElementById("comments_post_content")
 	const comment_post_button = document.getElementById("comments_post_send")
-	comment_post_button.addEventListener("bl-click", (e) => {
+	comment_post_button.addEventListener("click", (e) => {
 		const request = new XMLHttpRequest()
-		request.open("POST", "/api/v1/literature_objects/" + "1" + "/comments/post")
+		request.open("POST", "/api/v1/literature_objects/" + URL[2] + "/comments/post")
+		comment["is_anonymous"] = is_anonymous_element.checked === "true"
+		comment["is_spoilers"] = is_spoilers_element.checked === "true"
+		comment["author"] = comment_author.value
+		comment["content"] = comment_content_element.value
+
 		request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
 		request.setRequestHeader("is-hide-name", comment["is_anonymous"])
 		request.setRequestHeader("is-spoilers", comment["is_spoilers"])
 		request.setRequestHeader("author-name", comment["author"])
-		request.setRequestHeader("content", comment["content"])
+		request.setRequestHeader("content", comment["content"]) // ı ve ş bozuk
 		request.send()
 		request.onload = (e) => {
 			if (!request.responseText) {
@@ -73,18 +103,7 @@ function main() {
 			comments_post.appendChild(new_alert)
 		}
 	})
-	is_spoilers_element.addEventListener("bl-switch-toggle", (e) => {
-		comment["is_spoilers"] = e.detail
-	})
-	comment_content_element.addEventListener("bl-change", (e) => {
-		comment["content"] = comment_content_element.getAttribute("value")
-	})
-	is_anonymous_element.addEventListener("bl-switch-toggle", (e) => {
-		comment["is_anonymous"] = e.detail
-	})
-	comment_author.addEventListener("bl-change", (e) => {
-		comment["author"] = e.detail
-	})
+
 }
 function comment_page_changed(object) {
 	console.log(object.getAttribute("current-page"), object.getAttribute("items-per-page"))
@@ -106,12 +125,12 @@ class Comment {
 		field_creator.innerText = comment_data.hide_name ? "anonim (" + comment_data.author.uid + ")" : comment_data.author.name + " (" + comment_data.author.uid + ")"
 		if (comment_data.hide_name) {
 			field_creator.style.fontStyle = "italic"
-			field_creator.style.color = "rgba(0, 0, 0, 0.7)"
+			field_creator.style.color = "rgba(255, 255, 255, 0.7)"
 			field_creator.innerText = Translated("anonymous_author")
 		}
 		if (!comment_data.approved_by) {
 			field_message_content.style.fontStyle = "italic"
-			field_message_content.style.color = "rgba(0, 0, 0, 0.7)"
+			field_message_content.style.color = "rgba(255, 255, 255, 0.3)"
 			field_message_content.innerText = Translated("comment_not_approved")
 		}
 		field_message_downvotes.addEventListener("click", () => {
