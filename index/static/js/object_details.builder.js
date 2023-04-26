@@ -72,7 +72,7 @@ function main() {
 		request.setRequestHeader("is-hide-name", comment["is_anonymous"])
 		request.setRequestHeader("is-spoilers", comment["is_spoilers"])
 		request.setRequestHeader("author-name", comment["author"])
-		request.setRequestHeader("content", comment["content"])
+		request.setRequestHeader("content", comment["content"]) // ı ve ş bozuk
 		request.send()
 		request.onload = (e) => {
 			if (!request.responseText) {
