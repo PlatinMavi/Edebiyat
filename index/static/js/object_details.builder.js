@@ -11,10 +11,10 @@ function main() {
 	// document.addEventListener("scroll",(e)=>{
 	// 	console.log(window.scrollY)
 	// })
-	const comment_page = document.getElementById("comments_page")
-	comment_page.addEventListener("bl-change", (e) => {
-		comment_page_changed(comment_page)
-	})
+	// const comment_page = document.getElementById("comments_page")
+	// comment_page.addEventListener("bl-change", (e) => {
+	// 	comment_page_changed(comment_page)
+	// })
 	const comments_request = new XMLHttpRequest()
 	comments_request.open("GET", "/api/v1/literature_objects/" + "1" + "/comments/list?max-results=50&cursor=" + 0)
 	comments_request.send()
@@ -35,9 +35,14 @@ function main() {
 	const is_anonymous_element = document.getElementById("is_anonymous")
 	const comment_content_element = document.getElementById("comments_post_content")
 	const comment_post_button = document.getElementById("comments_post_send")
-	comment_post_button.addEventListener("bl-click", (e) => {
+	comment_post_button.addEventListener("click", (e) => {
 		const request = new XMLHttpRequest()
 		request.open("POST", "/api/v1/literature_objects/" + "1" + "/comments/post")
+		comment["is_anonymous"] = is_anonymous_element.value
+		comment["is_spoilers"] = is_spoilers_element.value
+		comment["author"] = comment_author.value
+		comment["content"] = comment_content_element.value
+
 		request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
 		request.setRequestHeader("is-hide-name", comment["is_anonymous"])
 		request.setRequestHeader("is-spoilers", comment["is_spoilers"])
@@ -73,18 +78,7 @@ function main() {
 			comments_post.appendChild(new_alert)
 		}
 	})
-	is_spoilers_element.addEventListener("bl-switch-toggle", (e) => {
-		comment["is_spoilers"] = e.detail
-	})
-	comment_content_element.addEventListener("bl-change", (e) => {
-		comment["content"] = comment_content_element.getAttribute("value")
-	})
-	is_anonymous_element.addEventListener("bl-switch-toggle", (e) => {
-		comment["is_anonymous"] = e.detail
-	})
-	comment_author.addEventListener("bl-change", (e) => {
-		comment["author"] = e.detail
-	})
+
 }
 function comment_page_changed(object) {
 	console.log(object.getAttribute("current-page"), object.getAttribute("items-per-page"))
@@ -106,12 +100,12 @@ class Comment {
 		field_creator.innerText = comment_data.hide_name ? "anonim (" + comment_data.author.uid + ")" : comment_data.author.name + " (" + comment_data.author.uid + ")"
 		if (comment_data.hide_name) {
 			field_creator.style.fontStyle = "italic"
-			field_creator.style.color = "rgba(0, 0, 0, 0.7)"
+			field_creator.style.color = "rgba(255, 255, 255, 0.7)"
 			field_creator.innerText = Translated("anonymous_author")
 		}
 		if (!comment_data.approved_by) {
 			field_message_content.style.fontStyle = "italic"
-			field_message_content.style.color = "rgba(0, 0, 0, 0.7)"
+			field_message_content.style.color = "rgba(255, 255, 255, 0.3)"
 			field_message_content.innerText = Translated("comment_not_approved")
 		}
 		field_message_downvotes.addEventListener("click", () => {
