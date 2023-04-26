@@ -7,7 +7,6 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="/static/tailwind_config.js"> </script>
 	<script src="https://cdn.tailwindcss.com"></script>
 	<link rel="stylesheet" href="/static/style.css">
 	<style>
@@ -117,28 +116,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- <div id="comments_section" style="display: block;margin-left: auto;margin-right: auto;" class="container mx-auto text-center">
-		<div id="comments_post" style="padding-top:3rem;display: flex;align-items: normal;gap: var(--bl-size-2xs)">
-			<bl-input id="comments_post_author" label="Kullanıcı Adı" type="text"
-				help-text="(Girdiğiniz ad herkeste gözükür)" icon="profile" minlength="3" maxlength="30"
-				invalid-text="Kullanıcı adınız 3 ile 30 karakter arasında olmalıdır.">
-			</bl-input>
-			<bl-textarea expand="true" id="comments_post_content" label="Yorum içeriği" icon="dialog" minlength="5"
-				character-counter = "true" maxlength="1000" invalid-text="Yorumunuz 5 ile 1000 karakter arasında olmalıdır.">
-			</bl-textarea>
-			<div>
-				<label translated = "has_spoilers" style="font: var(--bl-font-title-3);color: var(--bl-color-neutral-dark)"></label>
-				<bl-switch id = "is_contains_spoilers"></bl-switch>
-				<br>
-				<label translated = "share_anonymous" style="font: var(--bl-font-title-3);color: var(--bl-color-neutral-dark)"></label>
-				<bl-switch id="is_anonymous"></bl-switch>
-			</div>
-			<bl-button translated = "send" id = "comments_post_send" icon = "send" kind = "success" loading-label = "Gönderiliyor">Gönder</bl-button>
-		</div>
-		<div id="comments" style = "padding-top: 3rem;"> 
-
-	</div>
-	</div>-->
 
 	<div class="mx-auto w-full container text-center">
 		<form action="#" id = "comments_post" class="grid grid-cols-12 gap-10 mx-12">
@@ -147,20 +124,20 @@
 			
 			
 			<div class="bgdb col-span-2 h-16 px-4 flex w-max mx-auto rounded-lg">
-				<p class="mt-5">Spoiler</p>
+				<p translated = "has_spoilers" class="mt-5">Spoiler</p>
 				<label class="switch my-4 mx-2">
 				<input id = "is_contains_spoilers" type="checkbox">
 				<span class="slider round"></span>
 			  </label>
 			</div>
 			<div class="bgdb col-span-2 h-16 px-4 flex w-max mx-auto rounded-lg">
-				<p class="mt-5">Anonim paylaş</p> 
+				<p translated = "share_anonymous" class="mt-5">Anonim paylaş</p> 
 				<label class="switch my-4 mx-2">
 				<input id = "is_anonymous" type="checkbox">
 				<span class="slider round"></span>
 			  </label>
 			</div>
-			<div class="bgdb col-span-2 h-16 rounded-lg"> <button id = "comments_post_send" type="submit" class="text-xl mt-4">Gönder</button></div>
+			<div class="bgdb col-span-2 h-16 rounded-lg"> <button translated = "send" id = "comments_post_send" type="submit" class="text-xl mt-4">Gönder</button></div>
 
 		</form>
 	</div>

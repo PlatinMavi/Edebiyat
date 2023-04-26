@@ -1,11 +1,36 @@
 let TEMPLATE_COMMENT, latest_alert
 const comments_list = document.getElementById("comments")
+const URL = window.location.pathname.split('/');
 let comment = {
 	is_anonymous: false,
 	is_spoilers: false,
 	content: "",
 	parent_id: null,
 	author: "",
+}
+
+function decode_utf8(a) {
+    for(var i=0, s=''; i<a.length; i++) {
+        var h = a[i].toString(16)
+        if(h.length < 2) h = '0' + h
+        s += '%' + h
+    }
+    return decodeURIComponent(s)
+}
+function encode_utf8(s) {
+    for(var i=0, enc = encodeURIComponent(s), a = []; i < enc.length;) {
+        if(enc[i] === '%') {
+            a.push(parseInt(enc.substr(i+1, 2), 16))
+            i += 3
+        } else {
+            a.push(enc.charCodeAt(i++))
+        }
+    }
+    let final_string = ""
+	a.forEach((value)=>{
+		final_string += "\\" + value
+	})
+	return final_string
 }
 function main() {
 	// document.addEventListener("scroll",(e)=>{
@@ -16,7 +41,7 @@ function main() {
 	// 	comment_page_changed(comment_page)
 	// })
 	const comments_request = new XMLHttpRequest()
-	comments_request.open("GET", "/api/v1/literature_objects/" + "1" + "/comments/list?max-results=50&cursor=" + 0)
+	comments_request.open("GET", "/api/v1/literature_objects/" + URL[2] + "/comments/list?max-results=50&cursor=" + 0)
 	comments_request.send()
 	comments_request.onload = (e) => {
 		if (comments_request.status == 200 && comments_request.responseText) {
@@ -37,9 +62,9 @@ function main() {
 	const comment_post_button = document.getElementById("comments_post_send")
 	comment_post_button.addEventListener("click", (e) => {
 		const request = new XMLHttpRequest()
-		request.open("POST", "/api/v1/literature_objects/" + "1" + "/comments/post")
-		comment["is_anonymous"] = is_anonymous_element.value
-		comment["is_spoilers"] = is_spoilers_element.value
+		request.open("POST", "/api/v1/literature_objects/" + URL[2] + "/comments/post")
+		comment["is_anonymous"] = is_anonymous_element.checked === "true"
+		comment["is_spoilers"] = is_spoilers_element.checked === "true"
 		comment["author"] = comment_author.value
 		comment["content"] = comment_content_element.value
 

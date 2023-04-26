@@ -1,5 +1,8 @@
 from django.db import models
 import time
+from django.contrib import admin
+
+
 class VoteableObject(models.Model):
 	class Meta:
 		abstract = True
