@@ -10,36 +10,31 @@ let comment = {
 }
 
 function decode_utf8(a) {
-    for(var i=0, s=''; i<a.length; i++) {
-        var h = a[i].toString(16)
-        if(h.length < 2) h = '0' + h
-        s += '%' + h
-    }
-    return decodeURIComponent(s)
+	for (var i = 0, s = ''; i < a.length; i++) {
+		var h = a[i].toString(16)
+		if (h.length < 2) h = '0' + h
+		s += '%' + h
+	}
+	return decodeURIComponent(s)
 }
 function encode_utf8(s) {
-    for(var i=0, enc = encodeURIComponent(s), a = []; i < enc.length;) {
-        if(enc[i] === '%') {
-            a.push(parseInt(enc.substr(i+1, 2), 16))
-            i += 3
-        } else {
-            a.push(enc.charCodeAt(i++))
-        }
-    }
-    let final_string = ""
-	a.forEach((value)=>{
+	for (var i = 0, enc = encodeURIComponent(s), a = []; i < enc.length;) {
+		if (enc[i] === '%') {
+			a.push(parseInt(enc.substr(i + 1, 2), 16))
+			i += 3
+		} else {
+			a.push(enc.charCodeAt(i++))
+		}
+	}
+	let final_string = ""
+	a.forEach((value) => {
 		final_string += "\\" + value
 	})
 	return final_string
 }
 function main() {
-	// document.addEventListener("scroll",(e)=>{
-	// 	console.log(window.scrollY)
-	// })
-	// const comment_page = document.getElementById("comments_page")
-	// comment_page.addEventListener("bl-change", (e) => {
-	// 	comment_page_changed(comment_page)
-	// })
+	const upvotes = document.getElementsByClassName("upvote")
+	const downvotes = document.getElementsByClassName("downvote")
 	const comments_request = new XMLHttpRequest()
 	comments_request.open("GET", "/api/v1/literature_objects/" + URL[2] + "/comments/list?max-results=50&cursor=" + 0)
 	comments_request.send()
@@ -53,7 +48,6 @@ function main() {
 			}
 		}
 	}
-
 	const comments_post = document.getElementById("comments_post")
 	const comment_author = document.getElementById("comments_post_author")
 	const is_spoilers_element = document.getElementById("is_contains_spoilers")
@@ -67,7 +61,6 @@ function main() {
 		comment["is_spoilers"] = is_spoilers_element.checked === "true"
 		comment["author"] = comment_author.value
 		comment["content"] = comment_content_element.value
-
 		request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
 		request.setRequestHeader("is-hide-name", comment["is_anonymous"])
 		request.setRequestHeader("is-spoilers", comment["is_spoilers"])
@@ -84,30 +77,30 @@ function main() {
 				return
 			}
 			// something went wrong
-			latest_alert?.close()
+			latest_alert?.remove()
 			const error_message = Translated(data.error)
 			const error = data.error
 			console.log(error, ":", error_message)
-			const new_alert = document.createElement("bl-alert")
+			const new_alert = document.createElement("alert")
 			new_alert.setAttribute("variant", "danger")
 			new_alert.setAttribute("caption", Translated("error") + ": " + error)
 			new_alert.innerText = error_message
-			const button = document.createElement("bl-button")
+			const button = document.createElement("button")
 			button.setAttribute("slot", "action-secondary")
 			button.innerText = Translated("ok")
 			new_alert.appendChild(button)
 			latest_alert = new_alert
-			button.addEventListener("bl-click", (e) => {
-				new_alert.close()
+			button.addEventListener("click", (e) => {
+				new_alert.remove()
 			})
 			comments_post.appendChild(new_alert)
 		}
 	})
 
 }
-function comment_page_changed(object) {
-	console.log(object.getAttribute("current-page"), object.getAttribute("items-per-page"))
-}
+// function comment_page_changed(object) {
+// 	console.log(object.getAttribute("current-page"), object.getAttribute("items-per-page"))
+// }
 class Comment {
 	constructor(comment_data) {
 		const new_comment = document.createElement("div")
@@ -118,11 +111,18 @@ class Comment {
 		const field_message_created_at = new_comment.getElementsByClassName("comment-created-at")[0]
 		const field_message_upvotes = new_comment.getElementsByClassName("comment-upvotes")[0]
 		const field_message_downvotes = new_comment.getElementsByClassName("comment-downvotes")[0]
+		const upvote_button = new_comment.getElementsByClassName("upvote")[0]
+		const downvote_button = new_comment.getElementsByClassName("downvote")[0]
+
+		const comment_id = new_comment.getElementsByClassName("unknown-comment")[0]
+		comment_id.id = comment_data.id
 		new_comment.id = comment_data.id
+		// text generations
 		field_message_content.innerText = comment_data.content
 		field_message_upvotes.innerText = comment_data.votes.up
 		field_message_downvotes.innerText = comment_data.votes.down
 		field_creator.innerText = comment_data.hide_name ? "anonim (" + comment_data.author.uid + ")" : comment_data.author.name + " (" + comment_data.author.uid + ")"
+		// font styles
 		if (comment_data.hide_name) {
 			field_creator.style.fontStyle = "italic"
 			field_creator.style.color = "rgba(255, 255, 255, 0.7)"
@@ -133,8 +133,33 @@ class Comment {
 			field_message_content.style.color = "rgba(255, 255, 255, 0.3)"
 			field_message_content.innerText = Translated("comment_not_approved")
 		}
-		field_message_downvotes.addEventListener("click", () => {
-			console.log("downvote")
+		// events
+		function handle_vote(value) {
+			console.log(`downvoting ${new_comment.id}`)
+			const http_request = new XMLHttpRequest()
+			http_request.open("POST",`/api/v1/literature_objects/${URL[2]}/comments/${new_comment.id}/vote`)
+			http_request.setRequestHeader("vote-value",value)
+			http_request.send()
+			http_request.onload = (e)=>{
+				if (http_request.status == 200 && http_request.responseText) {
+					const data = JSON.parse(http_request.responseText)
+					if (data.success) {
+						console.log(`oy verildi ${value}, ${data}`)
+						field_message_upvotes.innerText = data.votes.up
+						field_message_downvotes.innerText = data.votes.down
+					} else {
+						console.log("hata ",data)
+					}
+				} else {
+					console.log("hata")
+				}
+			}
+		}
+		downvote_button.addEventListener("click", () => {
+			handle_vote(-1)
+		})
+		upvote_button.addEventListener("click", () => {
+			handle_vote(1)
 		})
 		const created_at = new Date(comment_data.created_at)
 		field_message_created_at.innerText = created_at.toLocaleString()
@@ -149,6 +174,8 @@ const comment_template_promise = new Promise((resolve, reject) => {
 		if (request.status == 200 && request.responseText) {
 			TEMPLATE_COMMENT = request.responseText
 			resolve()
+		} else {
+			reject("FAILED TO LOAD COMMENT.HTML")
 		}
 	}
 })

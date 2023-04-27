@@ -97,12 +97,12 @@
 			<img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src="{{BOOK.image.url}}" alt="">
 			<div class="flex justify-between h-96 p-10 leading-normal">
 				<h5 class="mb-2 mt-12 ">
-					<div class="left-15 ">
-						<img class="w-8" src="/static/thumbs_up.png">
+					<div class="left-15 " id = "comment_{{BOOK.id}}">
+						<img class="w-8 upvote" src="/static/thumbs_up.png">
 						<a style="font-size: x-small;">
 							{{BOOK.votes.up}}
 						</a>
-						<img class="w-8" src="/static/thumbs_down.png">
+						<img class="w-8 downvote" src="/static/thumbs_down.png">
 						<a style="font-size: x-small;">
 							{{BOOK.votes.down}}
 						</a>
@@ -119,8 +119,8 @@
 
 	<div class="mx-auto w-full container text-center">
 		<form action="#" id = "comments_post" class="grid grid-cols-12 gap-10 mx-12">
-			<input id = "comments_post_author" type="text" class="col-span-2 h-16 bgdb rounded-lg text-center">
-			<textarea id = "comments_post_content" type="text" class="col-span-4 h-16 bgdb rounded-lg text-center px-5 py-1" malength="2000"></textarea>
+			<input id = "comments_post_author" type="text" class="col-span-2 h-16 bgdb rounded-lg text-center" placeholder="Kullanıcı ismi">
+			<textarea id = "comments_post_content" type="text" class="col-span-4 h-16 bgdb rounded-lg text-center px-5 py-1" malength="2000" placeholder="Yorum..."></textarea>
 			
 			
 			<div class="bgdb col-span-2 h-16 px-4 flex w-max mx-auto rounded-lg">
