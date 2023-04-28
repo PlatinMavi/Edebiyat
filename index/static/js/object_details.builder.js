@@ -135,6 +135,24 @@ class Comment {
 		}
 		// events
 		function handle_vote(value) {
+			const is_voted_http = new XMLHttpRequest()
+			is_voted_http.open("GET",`/api/v1/literature_objects/${URL[2]}/comments/${new_comment.id}/is_voted`)
+			is_voted_http.send()
+			is_voted_http.onload = (e)=>{
+				if (is_voted_http.status == 200 && is_voted_http.responseText) {
+					const response = JSON.parse(is_voted_http.responseText)
+					if (response.success) {
+						console.log(response.data.value,value)
+						if (response.data.value === value) {
+							value = 0
+						}
+					} else {
+						console.log("hata ",response)
+					}
+				} else {
+					console.log("hata")
+				}
+			}
 			console.log(`downvoting ${new_comment.id}`)
 			const http_request = new XMLHttpRequest()
 			http_request.open("POST",`/api/v1/literature_objects/${URL[2]}/comments/${new_comment.id}/vote`)

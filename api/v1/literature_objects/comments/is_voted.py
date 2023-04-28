@@ -1,3 +1,5 @@
+from asyncio.windows_events import NULL
+from genericpath import exists
 from django.urls import path, include
 from django.http import HttpResponse, JsonResponse, HttpRequest
 from index.models import LiteratureObject, Comment, LiteratureObject, LiteratureObject, Creator, Vote, filter_comment
@@ -29,4 +31,5 @@ def export(request:HttpRequest, object_id, comment_id):
 			return error_response(
 				"errors.comments.not_found",
 				f"Comment not found with id {comment_id}")
-	return JsonResponse({"success":True,"data":{"is_voted":Vote.objects.filter(id = final_id,ip_adress=request.META.get("REMOTE_ADDR")) and True or False}}, safe=False)
+	vote = Vote.objects.filter(parent_comment = final_id,ip_adress=request.META.get("REMOTE_ADDR"))
+	return JsonResponse({"success":True,"data":{"is_voted": vote.exists(),"value":vote.exists() and vote.first().value or 0}}, safe=False)
