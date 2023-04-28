@@ -9,29 +9,6 @@ let comment = {
 	author: "",
 }
 
-function decode_utf8(a) {
-	for (var i = 0, s = ''; i < a.length; i++) {
-		var h = a[i].toString(16)
-		if (h.length < 2) h = '0' + h
-		s += '%' + h
-	}
-	return decodeURIComponent(s)
-}
-function encode_utf8(s) {
-	for (var i = 0, enc = encodeURIComponent(s), a = []; i < enc.length;) {
-		if (enc[i] === '%') {
-			a.push(parseInt(enc.substr(i + 1, 2), 16))
-			i += 3
-		} else {
-			a.push(enc.charCodeAt(i++))
-		}
-	}
-	let final_string = ""
-	a.forEach((value) => {
-		final_string += "\\" + value
-	})
-	return final_string
-}
 function main() {
 	const upvotes = document.getElementsByClassName("upvote")
 	const downvotes = document.getElementsByClassName("downvote")
@@ -135,36 +112,36 @@ class Comment {
 		}
 		// events
 		function handle_vote(value) {
-			const get_old_vote = new Promise((resolve,reject)=>{
+			const get_old_vote = new Promise((resolve, reject) => {
 				const is_voted_http = new XMLHttpRequest()
-				is_voted_http.open("GET",`/api/v1/literature_objects/${URL[2]}/comments/${new_comment.id}/is_voted`)
+				is_voted_http.open("GET", `/api/v1/literature_objects/${URL[2]}/comments/${new_comment.id}/is_voted`)
 				is_voted_http.send()
-				is_voted_http.onload = (e)=>{
+				is_voted_http.onload = (e) => {
 					if (is_voted_http.status == 200 && is_voted_http.responseText) {
 						const response = JSON.parse(is_voted_http.responseText)
 						console.log(response)
 						if (response.success) {
-							console.log(response.data.value,value)
+							console.log(response.data.value, value)
 							if (response.data.value === value) {
 								value = 0
 							}
 							resolve()
 						} else {
-							reject("hata ",response)
+							reject("hata ", response)
 						}
 					} else {
 						reject("hata")
 					}
 				}
 			})
-			get_old_vote.then(()=>{
+			get_old_vote.then(() => {
 				console.log(`downvoting ${new_comment.id}`)
 				const http_request = new XMLHttpRequest()
-				http_request.open("POST",`/api/v1/literature_objects/${URL[2]}/comments/${new_comment.id}/vote`)
+				http_request.open("POST", `/api/v1/literature_objects/${URL[2]}/comments/${new_comment.id}/vote`)
 				console.log(`sending vote with value ${value}`)
-				http_request.setRequestHeader("vote-value",value)
+				http_request.setRequestHeader("vote-value", value)
 				http_request.send()
-				http_request.onload = (e)=>{
+				http_request.onload = (e) => {
 					if (http_request.status == 200 && http_request.responseText) {
 						const data = JSON.parse(http_request.responseText)
 						if (data.success) {
@@ -172,14 +149,13 @@ class Comment {
 							field_message_upvotes.innerText = data.votes.up
 							field_message_downvotes.innerText = data.votes.down
 						} else {
-							console.log("hata ",data)
+							console.log("hata ", data)
 						}
 					} else {
 						console.log("hata")
 					}
 				}
 			})
-			
 		}
 		downvote_button.addEventListener("click", () => {
 			handle_vote(-1)

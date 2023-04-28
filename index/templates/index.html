@@ -90,11 +90,13 @@
 				</a>
 
 				<div
-					class="h-72 overflow-y-scroll scrollbar-hide w-full flex flex-col items-center bgdb rounded-lg shadow md:flex-row md:max-w-xl">
-					<div class=" flex flex-col justify-between p-8 leading-normal mx-auto">
-						<p class="mb-3 font-normal text-gray-700 dark:text-gray-400 my-auto">
+					class="h-72 w-full flex flex-col items-center bgdb rounded-lg shadow md:flex-row md:max-w-xl">
+					<div class=" flex flex-col justify-between p-8 leading-normal mx-auto ">
+						<p class="mb-3 font-normal text-gray-700  dark:text-gray-400">
 							<p class="font-bold text-xl my-2">{{TOP_POEM.creator.name}}, "{{TOP_POEM.name}}"</p>
-							{{TOP_POEM.content|linebreaks}}
+							<textarea name="" id="" cols="30" rows="8" class="bgdb" disabled="True">{{TOP_POEM.content}}</textarea>
+							
+							
 						</p>
 					</div>
 				</div>

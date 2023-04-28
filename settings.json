@@ -1,0 +1,8 @@
+{
+    "workbench.colorTheme": "Quiet Light",
+    "explorer.confirmDragAndDrop": false,
+    "editor.fontSize": 17,
+    "terminal.integrated.enableMultiLinePasteWarning": false,
+    "explorer.confirmDelete": false,
+    "html.format.wrapLineLength": 0
+}
