@@ -71,12 +71,12 @@
 					
 					<a href="" class="flex mx-2">
 						<img class="w-8" src="static/thumbs_up.png">
-						{{BOOK_OF_THE_MONTH.votes.up}}
+						<!-- {{BOOK_OF_THE_MONTH.votes.up}} --> 1254
 					</a>
 					
 					<a href="" class="flex mx-2">
 						<img class="w-8" src="static/thumbs_down.png">
-						{{BOOK_OF_THE_MONTH.votes.down}}
+						<!-- {{BOOK_OF_THE_MONTH.votes.down}} -->71
 						
 					</a>
 				</div>
@@ -101,16 +101,16 @@
 					</div>
 				</div>
 
-				<div class = "left-15 flex my-8">
+				<div class = "left-15 flex my-8 ">
 					
-					<a href="" class="flex mx-2">
+					<a href="" class="flex mx-2 ">
 						<img class="w-8" src="static/thumbs_up.png">
-						{{TOP_POEM.votes.up}}
+						<!-- {{TOP_POEM.votes.up}} -->453
 					</a>
 					
 					<a href="" class="flex mx-2">
 						<img class="w-8" src="static/thumbs_down.png">
-						{{TOP_POEM.votes.down}}
+						<!-- {{TOP_POEM.votes.down}} -->13
 						
 					</a>
 				</div>
@@ -124,7 +124,7 @@
 
 			
 				{%for creator in CREATOR_BIRTHDAY%}
-				<div class="w-max bgdb rounded-lg shadow p-4 my-1 text-white">
+				<div class=" bgdb rounded-lg shadow p-4 my-1 text-white">
 					<img class="w-10 h-10 rounded-full inline mx-2" src="media/{{creator.image}}" alt="" />
 					<h3
 						class="text-white mb-2 text-2xl font-serif italic inline tracking-tight mx-2">
@@ -142,7 +142,7 @@
 				<div
 					class="max-w-sm bgdb rounded-lg shadow">
 					<a href="{{x.url}}" target=_blank>
-						<img class="rounded-t-lg w-full object-fill" src="{{x.image.url}}" alt="" />
+						<img class="rounded-t-lg w-full h-96 object-fill" src="{{x.image.url}}" alt="" />
 					</a>
 					<div class="mt-2 mx-4">
 						<a href="{{x.url}}" target=_blank>
@@ -163,7 +163,7 @@
 					<div
 						class="max-w-sm bgdb rounded-lg shadow ">
 						<!--  hover:from-cyan-400 hover:to-cyan-600  -->
-						<img class="rounded-t-lg w-full object-fill " src="{{book.image.url}}" alt="" />
+						<img class="rounded-t-lg w-full h-96 object-fill " src="{{book.image.url}}" alt="" />
 						<div class="mt-2 mx-4 justify-center">
 							<h5 class="mb-2 text-2xl font-serif italic tracking-tight ">
 								{{book.name}}
