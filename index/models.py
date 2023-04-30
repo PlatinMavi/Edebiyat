@@ -13,23 +13,24 @@ class VoteableObject(models.Model):
 			return
 		target_object_type = type(self).__name__
 		vote = Vote.objects.get_or_create(ip_adress=ip, parent_literature_object = target_object_type == "LiteratureObject" and self or None, parent_comment = target_object_type == "Comment" and self or None)[0]
-		if vote:
-			# delete old votes
-			if vote.IS_UP():
-				self.up_votes -= 1
-			elif vote.IS_DOWN():
-				self.down_votes -= 1
 		vote.value = value
 		if vote.IS_UP():
 			self.up_votes += 1
 		elif vote.IS_DOWN():
 			self.down_votes += 1
+		else:
+			vote.delete()
 		self.CALCULATE_INTEREST_RATE()
 		vote.save()
 		self.save()
 	interest_rate = models.FloatField(default=0, editable=False)
 	def CALCULATE_INTEREST_RATE(self):
+		self.REFRESH_VOTE_COUNT()
 		self.interest_rate = (self.up_votes - self.down_votes)
+		self.save()
+	def REFRESH_VOTE_COUNT(self):
+		self.up_votes = Vote.objects.filter(parent_comment = self.id, value = 1).count()
+		self.down_votes = Vote.objects.filter(parent_comment = self.id, value = -1).count()
 		self.save()
 	def GET_VOTE_COUNT(self):
 		self.CALCULATE_INTEREST_RATE()

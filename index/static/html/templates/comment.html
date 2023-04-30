@@ -1,16 +1,23 @@
-<div class="text-left flex p-4 my-4 text-white rounded-lg">
-	<div class="comment-votes mx-2 p-4 bgdb rounded-xl text-center">	
-		<a href=""><a class = "comment-upvotes " style="font-size: x-small;"></a></a>
-		<img class="w-6 h-6 " src="/static/thumbs_up.png">
+<div class="text-left flex p-4 py-1 text-white rounded-lg">
+	<div class="comment-votes mx-4 px-4 bgdb rounded-xl text-center unknown-comment">
+		<div class = "my-3">
+			<a class="comment-upvotes"  style="font-size: x-small;user-select: none;">
+			</a>
+			<img class="w-6 h-6 upvote" style="cursor:pointer" src="/static/thumbs_up.png">
+		</div>
+		<div class = "my-3">
+			<img class="w-6 h-6 downvote" style="cursor:pointer" src="/static/thumbs_down.png">
+			<a class="comment-downvotes" style="font-size: x-small;user-select: none;">
+			</a>
+		</div>
 
-		<br>
-
-		<img class="w-6 h-6" src="/static/thumbs_down.png">
-		<a href=""><a class = "comment-downvotes" style="font-size: x-small;"></a></a>
 	</div>
-	<div class="comment-content-container mx-2 p-4 bgdb w-full rounded-xl">
-		<h1 class="comment-creator font-bold text-xl my-2">FAILED TO GET CREATOR DETAILS</h1>
-		<div class="comment-content"></div>
-		<div class="comment-created-at"></div>
+	<div class="comment-content-container mx-2 px-8 bgdb w-full rounded-xl">
+		<h1 class="comment-creator font-bold text-xl my-2"></h1>
+		<p style="position: relative;user-select: none;" class = "text-center h-0 open-spoilers-text italic" href="">
+			Bu yorum spoiler olarak işaretlenmiş, görmek için yoruma tıkla.
+		</p>
+		<a class="comment-content blur open-spoilers" href =""></a>
+		<div class="comment-created-at align-text-bottom" style="user-select: none;"></div>
 	</div>
 </div>

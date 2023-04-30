@@ -1,7 +1,12 @@
 from django.http import JsonResponse,HttpRequest
 from http import HTTPStatus
 import time
-
+def get_requests_only(func):
+	def wrapper(request, *args, **kwargs):
+		if request.method.lower() != "get":
+			return error_response("errors.request.method_not_allowed",f"{request.method.upper()} requests to this endpoint is not allowed")
+		return func(request, *args, **kwargs)
+	return wrapper
 def post_requests_only(func):
 	def wrapper(request, *args, **kwargs):
 		if request.method.lower() != "post":

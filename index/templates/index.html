@@ -44,48 +44,59 @@
 				​
 			</h4>
 		</div>
+
+		<br>
+
 		<div class="grid grid-cols-2 gap-10 sm:grid-rows-1 w-max mx-auto">
-			<div class = "mb-4">
+			<div class = "mb-4 ">
 				<a href="/books/{{BOOK_OF_THE_MONTH.id}}"class=" text-xl tracking-tight">
 					<h2 class="mx-3 my-2 text-xl font-serif">Ayın Kitabı:</h2>
 				</a>
+				
 				<div
-					class="md:shrink w-max flex h-72 flex-col items-center scrollbar-hide bgdb rounded-lg shadow md:flex-row md:max-w-xl  overflow-y-scroll">
-					<a href="/books/{{BOOK_OF_THE_MONTH.id}}" class="object-cover w-48 m-10">
-						<img src="{{BOOK_OF_THE_MONTH.image.url}}" alt="">
-					</a>
-					<div class="flex flex-col justify-between mx-8 pr-4 pt-4 my-4 leading-normal my-auto">
+					class="w-max flex flex-col items-center bgdb rounded-lg shadow md:flex-row md:max-w-xl ">
+					<img class="object-cover w-full h-48 "
+						src="{{BOOK_OF_THE_MONTH.image.url}}" alt="">
+					<div class="flex flex-col justify-between p-4 leading-normal">
 						<h5 class="mb-2 text-2xl font-bold tracking-tight">
 							{{BOOK_OF_THE_MONTH.name}}, {{BOOK_OF_THE_MONTH.creator.name}}
 						</h5>
 						<p class="mb-3 font-normal text-sm">
-							
-							{{BOOK_OF_THE_MONTH.content|linebreaks}}
+							{{BOOK_OF_THE_MONTH.content}}
 						</p>
 					</div>
 				</div>
+
 				<div class = "left-15 flex my-8">
+					
 					<a href="" class="flex mx-2">
 						<img class="w-8" src="static/thumbs_up.png">
 						{{BOOK_OF_THE_MONTH.votes.up}}
 					</a>
+					
 					<a href="" class="flex mx-2">
 						<img class="w-8" src="static/thumbs_down.png">
 						{{BOOK_OF_THE_MONTH.votes.down}}
+						
 					</a>
 				</div>
+
 			</div>
-			<div class = "">
+			<div class = "mb-4 ">
+				
 				<a href="/books/{{TOP_POEM.id}}"class=" text-xl tracking-tight">
 					<p class="my-2">Ayın Şiiri:</p>
 					
 				</a>
 
-				<div class="h-72 overflow-y-scroll scrollbar-hide w-full flex flex-col items-center bgdb rounded-lg shadow md:flex-row md:max-w-xl">
-					<div class=" flex flex-col justify-between leading-normal mx-auto my-auto">
-						<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+				<div
+					class="h-72 w-full flex flex-col items-center bgdb rounded-lg shadow md:flex-row md:max-w-xl">
+					<div class=" flex flex-col justify-between p-8 leading-normal mx-auto ">
+						<p class="mb-3 font-normal text-gray-700  dark:text-gray-400">
 							<p class="font-bold text-xl my-2">{{TOP_POEM.creator.name}}, "{{TOP_POEM.name}}"</p>
-							{{TOP_POEM.content|linebreaks}}
+							<textarea name="" id="" cols="30" rows="8" class="bgdb" disabled="True">{{TOP_POEM.content}}</textarea>
+							
+							
 						</p>
 					</div>
 				</div>
@@ -108,18 +119,21 @@
 		</div>
 		<hr class="my-7">
 		{%if CREATOR_BIRTHDAY%}
-			<h2 class="text-3xl italic font-serif mx-auto w-max pb-4">Bu Ay Doğan Yazarlar</h2>
-			<div class="grid grid-cols-2 gap-6 w-max mx-auto ">
+		<h2 class="text-3xl italic font-serif mx-auto w-max pb-4">Bu Ay Doğan Yazarlar</h2>
+		<div class="grid grid-cols-2 gap-6 w-max mx-auto">
+
+			
 				{%for creator in CREATOR_BIRTHDAY%}
-					<div class="w-max bgdb rounded-lg shadow p-4 my-1 text-white">
-						<img class="w-10 h-10 rounded-full inline mx-2" src="media/{{creator.image}}" alt="" />
-						<h3 class="text-white mb-2 text-2xl font-serif italic inline tracking-tight mx-2">
-							{{creator.name}} , <span class="text-xl">{{creator.created_at}}</span>
-						</h3>
-					</div>
+				<div class="w-max bgdb rounded-lg shadow p-4 my-1 text-white">
+					<img class="w-10 h-10 rounded-full inline mx-2" src="media/{{creator.image}}" alt="" />
+					<h3
+						class="text-white mb-2 text-2xl font-serif italic inline tracking-tight mx-2">
+						{{creator.name}} , <span class="text-xl">{{creator.created_at}}</span></h3>
+				</div>
 				{%endfor%}
-			</div>
-			<hr class="my-7">
+			
+		</div>
+		<hr class="my-7">
 		{%endif%}
 		<div class="mx-auto ">
 			<h3 class="mx-auto text-4xl font-serif">En Çok Okunan Dergiler:</h3>
